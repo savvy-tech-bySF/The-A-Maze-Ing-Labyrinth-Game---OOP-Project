@@ -16,8 +16,7 @@ SET(APP_FILES main.cpp
               Coordinates.hpp Coordinates.cpp
               Stack.hpp Stack.cpp
               CircularQueue.hpp CircularQueue.cpp
-              Enums.cpp FixedMazeCards.cpp
-              main.cpp )
+              Enums.cpp FixedMazeCards.cpp)
 
 add_executable(${APP_NAME} ${APP_FILES})
 target_include_directories(${APP_NAME} PUBLIC ${sdl_SOURCE_DIR}/include ${sdl_mixer_SOURCE_DIR}/include ${sdl_image_SOURCE_DIR})
