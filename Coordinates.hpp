@@ -1,8 +1,10 @@
 class Coordinates
 {
 public:
-    int x;
-    int y;
+    Coordinates();
+    Coordinates(int xVal, int yVal);
     bool validate();
 private:
+    int x;
+    int y;
 };
