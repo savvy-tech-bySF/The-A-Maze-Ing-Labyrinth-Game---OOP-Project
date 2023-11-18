@@ -11,8 +11,13 @@ include("${PROJECT_SOURCE_DIR}/LoadExternalDependencies.cmake")
 
 SET(APP_NAME main)
 SET(APP_FILES main.cpp 
-              mover.hpp mover.cpp
-              odyssey.hpp odyssey.cpp )
+              cards.hpp cards.cpp
+              MazeCards.hpp MazeCards.cpp
+              Coordinates.hpp Coordinates.cpp
+              Stack.hpp Stack.cpp
+              CircularQueue.hpp CircularQueue.cpp
+              Enums.cpp FixedMazeCards.cpp
+              main.cpp )
 
 add_executable(${APP_NAME} ${APP_FILES})
 target_include_directories(${APP_NAME} PUBLIC ${sdl_SOURCE_DIR}/include ${sdl_mixer_SOURCE_DIR}/include ${sdl_image_SOURCE_DIR})
