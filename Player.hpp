@@ -1,5 +1,5 @@
-#include "stack.cpp" 
-#include "coordinates.cpp"
+#include "Stack.cpp" 
+#include "Coordinates.cpp"
 #include "TreasureCards.cpp" 
 #include "MazeCards.cpp" 
 //Todo: define and then #include <SDL.h> 
