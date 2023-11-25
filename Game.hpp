@@ -1,5 +1,6 @@
 #pragma once
 #include "Player.hpp" 
+#include "Board.hpp"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
@@ -22,7 +23,11 @@ class Game {
     //Current displayed texture
     SDL_Texture* gTexture = NULL;
     //global reference to png image sheets
-    SDL_Texture* assets=NULL;
+    SDL_Texture* assets = NULL;
+    SDL_Texture* cards1 = NULL;
+    SDL_Texture* cards2 = NULL;
+    SDL_Texture* cards3 = NULL;
+
 
 public:
     Game(); 
@@ -39,4 +44,5 @@ public:
 private:
     Player players[4]; // Assuming all 4 players are playing
     Player* currentPlayer; 
+    Board board;
 };

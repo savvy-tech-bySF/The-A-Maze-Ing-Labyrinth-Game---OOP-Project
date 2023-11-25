@@ -5,7 +5,8 @@ public:
     Coordinates();
     Coordinates(int xVal, int yVal);
     bool validate();
-private:
+    Coordinates scaleCoordinates();
     int x;
     int y;
+private:
 };
