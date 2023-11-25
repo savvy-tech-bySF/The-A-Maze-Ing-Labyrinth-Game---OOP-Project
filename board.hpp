@@ -24,4 +24,5 @@ public:
 private:
     std::vector<MazeCards> rows;
     std::vector<MazeCards> cols;
+    std::vector<FixedMaze> FM;
 };
