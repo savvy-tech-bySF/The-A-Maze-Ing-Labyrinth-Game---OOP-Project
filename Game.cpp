@@ -1,5 +1,6 @@
-
+#include <iostream>
 #include "Game.hpp"
+using namespace std;
 bool Game::init()
 {
 	//Initialization flag
@@ -61,8 +62,11 @@ bool Game::loadMedia()
 	bool success = true;
 	
 	assets = loadTexture("mazecards.png");
+    cards1 = loadTexture("1.png");
+    cards2 = loadTexture("2.png");
+    cards3 = loadTexture("3.png");
     gTexture = loadTexture("gamescreen.png");
-	if(assets==NULL || gTexture==NULL)
+	if(assets==NULL || gTexture==NULL || cards1==NULL || cards2==NULL || cards3==NULL)
     {
         printf("Unable to run due to error: %s\n",SDL_GetError());
         success =false;
@@ -118,6 +122,7 @@ void Game::startGame( )
 	bool quit = false;
 	SDL_Event e;
 
+	board.initializeBoard();
 
 	while( !quit )
 	{
@@ -134,6 +139,7 @@ void Game::startGame( )
 			
 				int xMouse, yMouse;
 				SDL_GetMouseState(&xMouse,&yMouse);
+				cout << xMouse << " " << yMouse << endl;
 				//createObject(xMouse, yMouse);
 			}
 		}
@@ -141,6 +147,7 @@ void Game::startGame( )
 		SDL_RenderClear(gRenderer); //removes everything from renderer
 		SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);//Draws background to renderer
 		//***********************draw the objects here********************
+		board.DrawBoard(gRenderer, assets);
 
 		//drawObjects(gRenderer, assets);
 
@@ -154,10 +161,11 @@ void Game::startGame( )
 
 Game::Game() {
     //Todo: Initialize players with their treasure cards
+	
 }
 
 // void Game::startGame() {
-//     //Todo: Logic to initialize the game, distribute cards, set up the board
+//Todo: Logic to initialize the game, distribute cards, set up the board
 // }
 
 void Game::playTurn() {
