@@ -1,5 +1,6 @@
+#pragma once
 #include <vector>
-#include "MazeCards.cpp" 
+#include "MazeCards.hpp" 
 
 class Board {
 public:

@@ -1,4 +1,5 @@
-#include "Player.cpp" 
+#pragma once
+#include "Player.hpp" 
 
 class Game {
 public:

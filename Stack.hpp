@@ -1,3 +1,4 @@
+#pragma once
 #include "TreasureCards.cpp"
 #include <iostream>
 #include<vector>

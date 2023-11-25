@@ -1,4 +1,5 @@
-#include "cards.cpp"
+
+#include "cards.hpp"
 class FixedMaze : public Cards
 {
 public:

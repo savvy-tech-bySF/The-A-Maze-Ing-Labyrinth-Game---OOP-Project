@@ -1,3 +1,4 @@
+
 enum CardType {corner, line, three_sided, treasure};
 
 enum Treasure  {crown, dragon, ring, books, owl, lizard, witch, bug, 

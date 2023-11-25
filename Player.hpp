@@ -1,7 +1,8 @@
-#include "Stack.cpp" 
-#include "Coordinates.cpp"
+#pragma once
+#include "Stack.hpp" 
+#include "Coordinates.hpp"
 #include "TreasureCards.cpp" 
-#include "MazeCards.cpp" 
+#include "MazeCards.hpp" 
 //Todo: define and then #include <SDL.h> 
 
 class Player {

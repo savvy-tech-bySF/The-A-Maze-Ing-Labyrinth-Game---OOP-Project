@@ -1,5 +1,6 @@
+
 #include "Player.hpp"
-#include "Coordinates.cpp"
+//#include "Coordinates.cpp"
 Player::Player()
 {
     

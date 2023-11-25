@@ -1,4 +1,5 @@
-#include "cards.cpp"
+#pragma once
+#include "cards.hpp"
 class MazeCards : public Cards
 {
 public:

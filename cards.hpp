@@ -1,7 +1,10 @@
+#pragma once
 #include <iostream>
 #include <string>
 #include "Enums.cpp"
-#include "Coordinates.cpp"
+#include "Coordinates.hpp"
+#ifndef CARDS_HPP
+#define CARDS_HPP
 class Cards
 {
 public:
@@ -16,3 +19,4 @@ private:
     CardType _cardType;
     Treasure _treasure;
 };
+#endif

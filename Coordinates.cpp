@@ -1,3 +1,4 @@
+
 #include "Coordinates.hpp"
 Coordinates::Coordinates()
 {

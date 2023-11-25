@@ -1,6 +1,6 @@
 #include "CircularQueue.hpp"
 #include <iostream>
-#pragma once
+
 
 void Cqueue::insertCQ(int val) 
 {
