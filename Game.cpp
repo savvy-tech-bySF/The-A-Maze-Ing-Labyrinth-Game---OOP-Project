@@ -1,5 +1,6 @@
 
 #include "Game.hpp"
+#include <iostream>
 bool Game::init()
 {
 	//Initialization flag
@@ -134,6 +135,7 @@ void Game::startGame( )
 			
 				int xMouse, yMouse;
 				SDL_GetMouseState(&xMouse,&yMouse);
+                std::cout<<xMouse<<", "<<yMouse<<std::endl;
 				//createObject(xMouse, yMouse);
 			}
 		}
