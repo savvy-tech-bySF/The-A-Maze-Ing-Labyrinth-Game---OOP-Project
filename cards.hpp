@@ -3,6 +3,7 @@
 #include <string>
 #include "Enums.cpp"
 #include "Coordinates.hpp"
+#include <SDL.h>
 #ifndef CARDS_HPP
 #define CARDS_HPP
 class Cards
