@@ -122,6 +122,7 @@ void Game::startGame( )
 	bool quit = false;
 	SDL_Event e;
 
+	board.initializeBoard();
 
 	while( !quit )
 	{
@@ -146,6 +147,7 @@ void Game::startGame( )
 		SDL_RenderClear(gRenderer); //removes everything from renderer
 		SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);//Draws background to renderer
 		//***********************draw the objects here********************
+		board.DrawBoard(gRenderer, assets);
 
 		board.initializeBoard();
 		board.DrawBoard(gRenderer, assets);
