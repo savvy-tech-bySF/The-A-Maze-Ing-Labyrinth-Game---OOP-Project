@@ -148,9 +148,6 @@ void Game::startGame( )
 		SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);//Draws background to renderer
 		//***********************draw the objects here********************
 		board.DrawBoard(gRenderer, assets);
-
-		board.initializeBoard();
-		board.DrawBoard(gRenderer, assets);
 		//drawObjects(gRenderer, assets);
 
 		//****************************************************************

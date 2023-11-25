@@ -25,4 +25,16 @@ private:
     std::vector<MazeCards> rows;
     std::vector<MazeCards> cols;
     std::vector<FixedMaze> FM;
+    SDL_Rect c1 = {158,388,304,303};
+    SDL_Rect c2 = {158,753,303,304};
+    SDL_Rect c3 = {556,389,303,304};
+    SDL_Rect c4 = {556,753,304,303};
+
+    SDL_Rect l1 = {556, 46, 304, 303};
+    SDL_Rect l2 = {1061, 43, 303, 304};
+
+    SDL_Rect t1 = {1061,388,303,305};
+    SDL_Rect t2 = {1060,733,305,303};
+    SDL_Rect t3 = {1506,388,305,303};
+    SDL_Rect t4 = {1498,732,303,305};
 };

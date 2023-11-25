@@ -1,6 +1,5 @@
 
 #include "board.hpp"
-
 Board::Board() 
 {}
 
@@ -24,10 +23,14 @@ void Board::initializeBoard()
     c.x=374; FixedMaze Helmet(c); Helmet.setID("14"); Helmet.setType(three_sided); Helmet.setTreasure(helmet);FM.push_back(Helmet);
     c.x = 534; FixedMaze blueBase(c); blueBase.setID("15"); blueBase.setType(corner); blueBase.setTreasure(none);FM.push_back(blueBase);
 
-    c.x = 146; c.y =48; MazeCards check(c); check.setID("16"); check.setType(corner); check.setTreasure(none); check.setOrientation("SE"); check.src = {154, 335, 411, 411}; check.move = {check.coords.x, check.coords.y, 85, 85};
-    c.x = 321; MazeCards check2(c); check2.setID("17"); check2.setType(line); check2.setTreasure(none); check2.setOrientation("SE"); check2.src = {755, 335, 411, 411}; check2.move = {check2.coords.x, check2.coords.y, 85, 85};
+    c.x = 146; c.y =48; MazeCards check(c,c1); check.setID("16"); check.setType(corner); check.setTreasure(none); check.setOrientation("SE");
+    c.x = 321; MazeCards check2(c,l1); check2.setID("17"); check2.setType(line); check2.setTreasure(none); check2.setOrientation("WE");
+    c.x = 146;c.y = 136; MazeCards check3(c,t3); check2.setID("18"); check3.setType(three_sided); check3.setTreasure(none); check3.setOrientation("WSE");
+    c.x = 321; MazeCards check4(c,c4); check4.setID("19"); check4.setType(corner); check4.setTreasure(none); check4.setOrientation("NW");
     rows.push_back(check);
     rows.push_back(check2);
+    rows.push_back(check3);
+    rows.push_back(check4);
 }
 void Board::insertMazeCard(const MazeCards& card, const Coordinates& coordinates) 
 {
@@ -45,6 +48,7 @@ void Board::DrawBoard(SDL_Renderer* gRenderer, SDL_Texture* asset)
 {
     for(int i = 0;i < rows.size();i++)
     {
+        // cout << rows[i].src.x << " " << rows[i].src.y << " " << rows[i].src.w << " " << rows[i].src.h << endl;
 	    SDL_RenderCopy(gRenderer, asset, &rows[i].src, &rows[i].move);
     }
 
