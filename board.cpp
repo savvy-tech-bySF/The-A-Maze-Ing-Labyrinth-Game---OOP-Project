@@ -25,7 +25,7 @@ void Board::initializeBoard()
     // Coordinates r(534, 530); FixedMaze blueBase(r); blueBase.setID("15"); blueBase.setType(corner); blueBase.setTreasure(none);
 
     Coordinates s(134,50); MazeCards check(s); check.setID("16"); check.setType(corner); check.setTreasure(none); check.setOrientation("SE"); check.src = {154, 335, 411, 411}; check.move = {check.coords.x, check.coords.y, 80, 80};
-    Coordinates t(274,50); MazeCards check2(t); check2.setID("17"); check2.setType(corner); check2.setTreasure(none); check2.setOrientation("SE"); check2.src = {154, 335, 411, 411}; check2.move = {check.coords.x, check.coords.y, 80, 80};
+    Coordinates t(274,50); MazeCards check2(t); check2.setID("17"); check2.setType(corner); check2.setTreasure(none); check2.setOrientation("SE"); check2.src = {154, 335, 411, 411}; check2.move = {check2.coords.x, check2.coords.y, 80, 80};
     rows.push_back(check);
     rows.push_back(check2);
 }
