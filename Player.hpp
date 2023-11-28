@@ -3,6 +3,8 @@
 #include "Coordinates.hpp"
 #include "TreasureCards.cpp" 
 #include "MazeCards.hpp" 
+#ifndef PLAYER_HPP
+#define PLAYER_HPP
 //Todo: define and then #include <SDL.h> 
 
 class Player {
@@ -16,18 +18,21 @@ public:
 
     //void move(SDL_KeyboardEvent event); //Todo: Handle player movement based on SDL keyboard event (to be defined) 
 
-    bool checkTreasure(); // Check if the player found any treasure
+    //bool checkTreasure(); // Check if the player found any treasure
 
-    TreasureCards* getFound(); // Return array of found treasure cards
+    //TreasureCards* getFound(); // Return array of found treasure cards
+    // void addTreasureCard(TreasureCards* Card);
 
     void place_maze_card(); // Place the out of range maze card on the board
 
 private:
     int playerID;
     //int treasures; if we change the amount of players who can play. Default are 4
-    Stack cards;
+    //Stack cards;
     Coordinates position;
-    TreasureCards foundTreasure[6]; /*
-    ! Assuming there are four players playing so each player gets 6 treasure cards */ 
+    //TreasureCards foundTreasure[6]; /*
+    //! Assuming there are four players playing so each player gets 6 treasure cards */ 
     MazeCards mazecard;
 };
+
+#endif

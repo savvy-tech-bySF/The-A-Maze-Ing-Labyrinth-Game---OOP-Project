@@ -1,4 +1,3 @@
-
 #include "cards.hpp"
 
 std::string Cards::getID()

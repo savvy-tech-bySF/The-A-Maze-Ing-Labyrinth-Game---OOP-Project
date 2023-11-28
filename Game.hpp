@@ -1,6 +1,8 @@
 #pragma once
 #include "Player.hpp" 
 #include "Board.hpp"
+#include "Stack.hpp"
+#include "TreasureCards.cpp"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
@@ -8,7 +10,8 @@
 #include <string>
 #include <stdlib.h>
 #include <time.h>
-
+#ifndef GAME_HPP
+#define GAME_HPP
 class Game {
     //Screen dimension constants
     const int SCREEN_WIDTH = 1000;
@@ -24,6 +27,7 @@ class Game {
     SDL_Texture* gTexture = NULL;
     //global reference to png image sheets
     SDL_Texture* assets = NULL;
+    SDL_Texture* assets1 = NULL;
     SDL_Texture* cards1 = NULL;
     SDL_Texture* cards2 = NULL;
     SDL_Texture* cards3 = NULL;
@@ -32,11 +36,14 @@ class Game {
 public:
     Game(); 
     void startGame(); 
+    // void initializePlayers();
     void playTurn(); 
     bool isGameOver(); 
     void displayWinner(); 
     bool init();
     bool loadMedia();
+    bool handleKeyboardEvent(SDL_Event& e);
+    int highlightElements(SDL_Renderer*gRenderer, SDL_Texture* asset, bool highlightActive);
     void close();
     SDL_Texture* loadTexture( std::string path );
     
@@ -45,4 +52,9 @@ private:
     Player players[4]; // Assuming all 4 players are playing
     Player* currentPlayer; 
     Board board;
+    bool highlightActive = false;
+    
+    //Stack treasureDeck;
 };
+
+#endif

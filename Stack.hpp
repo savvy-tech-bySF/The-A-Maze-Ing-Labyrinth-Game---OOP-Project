@@ -1,16 +1,17 @@
 #pragma once
 #include "TreasureCards.cpp"
 #include <iostream>
-#include<vector>
+#include <vector>
 // class TreasureCards;
 
 class Stack
 {
 public:
-    void push(TreasureCards card);
-    TreasureCards pop();
-    bool isEmpty();
-    TreasureCards top();
+    Stack();
+    // void push(TreasureCards card);
+    // TreasureCards pop();
+    // bool isEmpty();
+    // TreasureCards top();
 private:
-    std::vector<TreasureCards> stack;
+    // std::vector<TreasureCards> stack;
 };

@@ -23,18 +23,101 @@ void Board::initializeBoard()
     c.x=374; FixedMaze Helmet(c); Helmet.setID("14"); Helmet.setType(three_sided); Helmet.setTreasure(helmet);FM.push_back(Helmet);
     c.x = 534; FixedMaze blueBase(c); blueBase.setID("15"); blueBase.setType(corner); blueBase.setTreasure(none);FM.push_back(blueBase);
 
-    c.x = 146; c.y =48; MazeCards check(c,c1); check.setID("16"); check.setType(corner); check.setTreasure(none); check.setOrientation("SE");
-    c.x = 321; MazeCards check2(c,l1); check2.setID("17"); check2.setType(line); check2.setTreasure(none); check2.setOrientation("WE");
-    c.x = 146;c.y = 136; MazeCards check3(c,t3); check2.setID("18"); check3.setType(three_sided); check3.setTreasure(none); check3.setOrientation("WSE");
-    c.x = 321; MazeCards check4(c,c4); check4.setID("19"); check4.setType(corner); check4.setTreasure(none); check4.setOrientation("NW");
-    rows.push_back(check);
-    rows.push_back(check2);
-    rows.push_back(check3);
-    rows.push_back(check4);
+    // c.x = 146; c.y =48; MazeCards check(c,c1); check.setID("16"); check.setType(corner); check.setTreasure(none); check.setOrientation("SE");
+    // c.x = 321; MazeCards check2(c,l1); check2.setID("17"); check2.setType(line); check2.setTreasure(none); check2.setOrientation("WE");
+    // c.x = 146;c.y = 136; MazeCards check3(c,t3); check2.setID("18"); check3.setType(three_sided); check3.setTreasure(none); check3.setOrientation("WSE");
+    // c.x = 321; MazeCards check4(c,c4); check4.setID("19"); check4.setType(corner); check4.setTreasure(none); check4.setOrientation("NW");
+    // rows.push_back(check);
+    // rows.push_back(check2);
+    // rows.push_back(check3);
+    // rows.push_back(check4);
+    int startingX[] = {146, 321, 496}; // X coordinates for columns
+    int startingY = 48; // Initial Y coordinate
+
+    for (int col = 0; col < 3; ++col) {
+        int currentX = startingX[col];
+
+        for (int row = 0; row < 7; ++row) {
+            int randomIndex = rand() % allmazecards.size();
+            SDL_Rect srcRect = allmazecards[randomIndex];
+
+            Coordinates c(currentX, startingY + row * 87); // Calculate Y coordinate for each row
+
+            MazeCards mazeCard(c, srcRect);
+            mazeCard.setID(to_string(3 * col + row + 1)); // Assigning unique IDs
+            mazeCard.setType(three_sided); // You can set the type as needed
+            mazeCard.setTreasure(none); // Set the treasure type
+
+            cols.push_back(mazeCard);
+        }
+    };
+    int startingRowYCoords[] = {139, 313, 489}; // Y coordinates for rows
+    int startingRowXCoords[] = {57, 236, 409, 588}; // X coordinates for rows
+
+    for (int row = 0; row < 3; ++row) {
+        int currentY = startingRowYCoords[row];
+
+        for (int col = 0; col < 4; ++col) {
+            int randomIndex = rand() % allmazecards.size();
+            SDL_Rect srcRect = allmazecards[randomIndex];
+
+            Coordinates c(startingRowXCoords[col], currentY); // Calculate X coordinate for each column
+
+            MazeCards mazeCard(c, srcRect);
+            mazeCard.setID(to_string(3 * col + row + 1)); // Assigning unique IDs
+            mazeCard.setType(three_sided); // You can set the type as needed
+            mazeCard.setTreasure(none); // Set the treasure type
+
+            rows.push_back(mazeCard);
+        }
+    };
+    int i = rand() % allmazecards.size();
+    SDL_Rect srcRect = allmazecards[i];
+
+    Coordinates usable_card(815, 413); // Define the coordinates
+    usable.src = srcRect;
+    usable.move = {815, 413, 85, 85};
+    usable.coords = usable_card;
+    usable.setID("0"); // Assign a unique ID
+    usable.setType(three_sided); // Set the type
+    usable.setTreasure(none); // Set the treasure type
+
 }
-void Board::insertMazeCard(const MazeCards& card, const Coordinates& coordinates) 
+void Board::insertMazeCard(int arrow_num) 
 {
     //Todo: Insert the provided maze card at the specified coordinates on the board
+    if (arrow_num == 1 || arrow_num == 2 || arrow_num == 3)
+    {
+        // Shift the row from the end of the vector
+        for (int i = ((arrow_num - 1) * 4) + 3; i > ((arrow_num - 1) * 4); --i) {
+            if (i < rows.size() - 1) {
+                rows[i].move.x = rows[i - 1].move.x;
+                rows[i].move.y = rows[i - 1].move.y;
+            }
+        }
+        // Place the new card at the specified coordinates
+        usable.src = rows[0].src;
+        usable.move = {815, 413, 85, 85};
+        usable.coords.x = 815;
+        usable.coords.y = 413;
+        rows.erase(rows.begin());
+    }
+    else if (arrow_num == 7 || arrow_num == 8 || arrow_num == 9)
+    {
+        // Shift the row from the start of the vector
+        for (size_t i = (9 - arrow_num) * 4; i < (9 - arrow_num) * 4 + 4; ++i) {
+            if (i < rows.size() - 1) {
+                rows[i].move.x = rows[i + 1].move.x;
+                rows[i].move.y = rows[i + 1].move.y;
+            }
+        }
+        usable.src = rows[rows.size() - 1].src;
+        usable.move = {815, 413, 85, 85};
+        usable.coords.x = 815;
+        usable.coords.y = 413;
+        rows.pop_back();
+    }
+    
 }
 
 void Board::movePlayer() {
@@ -51,5 +134,11 @@ void Board::DrawBoard(SDL_Renderer* gRenderer, SDL_Texture* asset)
         // cout << rows[i].src.x << " " << rows[i].src.y << " " << rows[i].src.w << " " << rows[i].src.h << endl;
 	    SDL_RenderCopy(gRenderer, asset, &rows[i].src, &rows[i].move);
     }
+    for(int j = 0;j < cols.size();j++)
+    {
+        // cout << rows[i].src.x << " " << rows[i].src.y << " " << rows[i].src.w << " " << rows[i].src.h << endl;
+	    SDL_RenderCopy(gRenderer, asset, &cols[j].src, &cols[j].move);
+    }
+    SDL_RenderCopy(gRenderer, asset, &usable.src, &usable.move);
 
 }

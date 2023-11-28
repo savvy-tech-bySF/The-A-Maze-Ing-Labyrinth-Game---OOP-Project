@@ -1,6 +1,14 @@
 #include <iostream>
 #include "Game.hpp"
 using namespace std;
+// void Game::initializePlayers() {
+// 	for (int i = 0; i < 4; ++i) {
+// 		for (int j = 0; j < 6; ++j) {
+// 			//TreasureCards card = treasureDeck.pop();
+// 			//players[i].addTreasureCard(&card);
+// 		}
+// 	}
+// }
 bool Game::init()
 {
 	//Initialization flag
@@ -55,13 +63,52 @@ bool Game::init()
 
 	return success;
 }
+int Game::highlightElements(SDL_Renderer*gRenderer, SDL_Texture* asset, bool highlightActive){
+	
 
+		static int i = 0;
+		//cout<<i<<endl;
+		std::vector <SDL_Rect> arrow = {{672, 158, 45, 45},{672, 158, 45, 45},{672, 158, 45, 45},
+										{518, 656, 45, 45},{518, 656, 45, 45},{518, 656, 45, 45},
+										{0, 507, 45, 45},{0, 507, 45, 45},{0, 507, 45, 45},
+										 {162, 3, 45, 45},{162, 3, 45, 45},{162, 3, 45, 45}};
+		std::vector <SDL_Rect> arrow_dest = {{672, 158, 45, 45},{672, 337, 45, 45}, {672, 510, 45, 45}, {518, 656, 45, 45},
+											{345, 656, 45, 45}, {162, 653, 45, 45}, {0, 507, 45, 45}, {0, 328, 45, 45},
+											{0, 155, 45, 45}, {162, 3, 45, 45}, {345, 4, 45, 45}, {518, 5, 45, 45} };
+		SDL_RenderCopy(gRenderer, asset, &arrow[i%12], &arrow_dest[i%12]);
+		if (highlightActive){
+
+			i+=1;
+			
+		}
+		return i;
+		
+}
+bool Game::handleKeyboardEvent(SDL_Event& e) {
+    if (e.type == SDL_KEYDOWN) {
+        switch (e.key.keysym.sym) {
+            case SDLK_RIGHT:
+				highlightActive = true;
+                //highlightElements(gRenderer, asset); 
+				return false;
+                break;
+            case SDLK_RETURN:
+                //enter key pressed
+                return true;
+                break;
+            default:
+				return false;
+                break;
+        }
+    }
+}
 bool Game::loadMedia()
 {
 	//Loading success flag
 	bool success = true;
 	
 	assets = loadTexture("mazecards.png");
+	assets1 = loadTexture("highlightedarrow.png");
     cards1 = loadTexture("1.png");
     cards2 = loadTexture("2.png");
     cards3 = loadTexture("3.png");
@@ -119,6 +166,7 @@ SDL_Texture* Game::loadTexture( std::string path )
 }
 void Game::startGame( )
 {
+	bool enter_key_pressed; 
 	bool quit = false;
 	SDL_Event e;
 
@@ -142,12 +190,24 @@ void Game::startGame( )
 				cout << xMouse << " " << yMouse << endl;
 				//createObject(xMouse, yMouse);
 			}
+			if (e.type == SDL_KEYDOWN) {
+                // Handle keyboard events
+				//cout << "Keyboard key pressed"<< endl;
+                enter_key_pressed = handleKeyboardEvent(e);
+            }
 		}
 
 		SDL_RenderClear(gRenderer); //removes everything from renderer
 		SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);//Draws background to renderer
 		//***********************draw the objects here********************
 		board.DrawBoard(gRenderer, assets);
+		
+		int arrow_number = highlightElements(gRenderer, assets1, highlightActive);
+		highlightActive = false;
+		if (enter_key_pressed)
+		{
+			board.insertMazeCard(arrow_number);
+		}
 		//drawObjects(gRenderer, assets);
 
 		//****************************************************************
