@@ -79,10 +79,10 @@ int Game::highlightElements(SDL_Renderer*gRenderer, SDL_Texture* asset, bool hig
 		if (highlightActive){
 
 			i+=1;
-			
+			cout << i%13 << endl;
+			return i%13;
 		}
-		return i;
-		
+		return 0;
 }
 bool Game::handleKeyboardEvent(SDL_Event& e) {
     if (e.type == SDL_KEYDOWN) {

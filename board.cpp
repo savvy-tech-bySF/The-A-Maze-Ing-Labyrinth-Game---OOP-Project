@@ -121,15 +121,15 @@ void Board::insertMazeCard(int arrow_num)
 
     if (arrow_num >= 1 && arrow_num <= 3) {
         int movable_index = arrow_num * 2 - 1; // Convert arrow number to index
+        Cards* temp = grid[movable_index][0];
         for (int i = 6; i > 0; i--) {
-            grid[movable_index][i] = grid[movable_index][i - 1];
+            grid[movable_index][i-1] = grid[movable_index][i];
         }
-        grid[movable_index][0] = usable;
-
-        // Update the properties of the 'usable' card
-        usable->setsrc(*(grid[movable_index][1]->getsrc()));
+        grid[movable_index][6] = usable;
+        usable->setsrc(*(temp->getsrc()));
         usable->setmove({ 815, 413, 85, 85 });
         usable->setcoordinates(c);
+        // Update the properties of the 'usable' card
     } else if (arrow_num >= 7 && arrow_num <= 9) {
         int movable_index = (arrow_num - 6) * 2 - 1; // Convert arrow number to index
         for (int i = 0; i < 6; i++) {
