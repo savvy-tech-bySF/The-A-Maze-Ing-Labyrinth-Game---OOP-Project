@@ -9,12 +9,22 @@
 class Cards
 {
 public:
+    Cards()= default;
+    //virtual Cards(Coordinates c, SDL_Rect src);
     std::string getID();
-    void setID(std::string ID);
-    CardType getType();
-    void setType(CardType type);
-    Treasure getTreasure();
-    void setTreasure(Treasure t);
+    virtual SDL_Rect* getsrc();
+    virtual SDL_Rect* getmove();
+    virtual void setsrc(SDL_Rect s);
+    virtual void setmove(SDL_Rect m);
+    virtual void setID(std::string ID);
+    virtual CardType getType();
+    virtual void setType(CardType type);
+    virtual Treasure getTreasure();
+    virtual void setTreasure(Treasure t);
+protected:
+    Coordinates coords;
+    SDL_Rect src;
+    SDL_Rect move;
 private:
     std::string _cardID;
     CardType _cardType;

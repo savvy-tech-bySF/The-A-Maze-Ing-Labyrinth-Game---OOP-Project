@@ -15,6 +15,7 @@ using namespace std;
 class Board {
 public:
     Board(); 
+    ~Board();
     void initializeBoard(); 
     void insertMazeCard(int arrow_num); 
     void movePlayer(); 
@@ -22,8 +23,7 @@ public:
     void DrawBoard(SDL_Renderer*gRenderer, SDL_Texture* asset);
 
 private:
-    std::vector<MazeCards> rows;
-    std::vector<MazeCards> cols;
+    std::vector<std::vector<Cards*>> grid;
     std::vector<FixedMaze> FM;
     std::vector<SDL_Rect> allmazecards = {
 
@@ -40,6 +40,6 @@ private:
         {1506,388,305,303},
         {1498,732,303,305}
     };
-    MazeCards usable;
+    MazeCards* usable = new MazeCards();
 
 };

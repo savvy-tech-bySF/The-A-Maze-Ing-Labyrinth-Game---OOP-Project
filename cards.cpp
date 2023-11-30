@@ -24,3 +24,19 @@ void Cards::setTreasure(Treasure t)
 {
     _treasure = t;
 }
+void Cards::setsrc(SDL_Rect s)  
+{
+    src = s;
+}
+SDL_Rect* Cards::getsrc()
+{
+    return &src;
+}
+void Cards::setmove(SDL_Rect m)
+{
+    move = m;
+}
+SDL_Rect* Cards::getmove()
+{
+    return &move;
+}
