@@ -31,6 +31,7 @@ class Game {
     SDL_Texture* cards1 = NULL;
     SDL_Texture* cards2 = NULL;
     SDL_Texture* cards3 = NULL;
+    SDL_Texture* treasureTexture = NULL;
 
 
 public:
@@ -43,7 +44,7 @@ public:
     bool init();
     bool loadMedia();
     bool handleKeyboardEvent(SDL_Event& e);
-    int highlightElements(SDL_Renderer*gRenderer, SDL_Texture* asset, bool highlightActive);
+    int highlightElements(SDL_Renderer*gRenderer, SDL_Texture* asset, bool highlightActiveRight, bool highlightActiveLeft);
     void close();
     SDL_Texture* loadTexture( std::string path );
     
@@ -52,7 +53,8 @@ private:
     Player players[4]; // Assuming all 4 players are playing
     Player* currentPlayer; 
     Board board;
-    bool highlightActive = false;
+    bool highlightActiveRight = false;
+    bool highlightActiveLeft = false;
     
     //Stack treasureDeck;
 };

@@ -63,7 +63,7 @@ bool Game::init()
 
 	return success;
 }
-int Game::highlightElements(SDL_Renderer*gRenderer, SDL_Texture* asset, bool highlightActive){
+int Game::highlightElements(SDL_Renderer*gRenderer, SDL_Texture* asset, bool highlightActiveRight, bool highlightActiveLeft){
 	
 		// cout << highlightActive << " highlight elements" <<  endl;
 		static int i = 0;
@@ -77,10 +77,16 @@ int Game::highlightElements(SDL_Renderer*gRenderer, SDL_Texture* asset, bool hig
 											{345, 656, 45, 45}, {162, 653, 45, 45}, {0, 507, 45, 45}, {0, 328, 45, 45},
 											{0, 155, 45, 45}, {162, 3, 45, 45}, {345, 4, 45, 45}, {518, 5, 45, 45} };
 		SDL_RenderCopy(gRenderer, asset, &arrow[i%12], &arrow_dest[i%12]);
-		if (highlightActive){
+		if (highlightActiveRight){
 			i+=1;
-			cout << i%12 << endl;
-		// 	return i%12;
+		}
+		if (highlightActiveLeft)
+		{
+			i-=1;
+		}
+		if (i <0)
+		{
+			i+=12;
 		}
 		return (i%12)+1;
 }
@@ -88,11 +94,15 @@ bool Game::handleKeyboardEvent(SDL_Event& e) {
     if (e.type == SDL_KEYDOWN) {
         switch (e.key.keysym.sym) {
             case SDLK_RIGHT:
-				Game::highlightActive = true;
-				cout << Game::highlightActive << endl;
+				highlightActiveRight = true;
+				cout << highlightActiveRight << endl;
                 //highlightElements(gRenderer, asset); 
 				return false;
                 break;
+			case SDLK_LEFT:
+				highlightActiveLeft = true;
+				return false;
+				break;
             case SDLK_RETURN:
                 //enter key pressed
 				cout << "enter pressed\n";
@@ -114,8 +124,9 @@ bool Game::loadMedia()
     cards1 = loadTexture("1.png");
     cards2 = loadTexture("2.png");
     cards3 = loadTexture("3.png");
+	treasureTexture = loadTexture("treasuresallinone.png");
     gTexture = loadTexture("gamescreen.png");
-	if(assets==NULL || gTexture==NULL || cards1==NULL || cards2==NULL || cards3==NULL)
+	if(assets==NULL || gTexture==NULL || cards1==NULL || cards2==NULL || cards3==NULL || treasureTexture == NULL)
     {
         printf("Unable to run due to error: %s\n",SDL_GetError());
         success =false;
@@ -203,10 +214,11 @@ void Game::startGame( )
 		SDL_RenderClear(gRenderer); //removes everything from renderer
 		SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);//Draws background to renderer
 		//***********************draw the objects here********************
-		board.DrawBoard(gRenderer, assets);
+		board.DrawBoard(gRenderer, assets, treasureTexture);
 		
-		int arrow_number = highlightElements(gRenderer, assets1, highlightActive);
-		Game::highlightActive = false;
+		int arrow_number = highlightElements(gRenderer, assets1, highlightActiveRight, highlightActiveLeft);
+		highlightActiveRight = false;
+		highlightActiveLeft = false;
 		if (enter_key_pressed)
 		{
 			board.insertMazeCard(arrow_number);

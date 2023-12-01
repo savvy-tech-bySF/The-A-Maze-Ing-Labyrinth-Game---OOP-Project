@@ -14,6 +14,8 @@ public:
     std::string getID();
     virtual SDL_Rect* getsrc();
     virtual SDL_Rect* getmove();
+    virtual SDL_Rect* getTreasureMove();
+    virtual void setTreasuremove(const SDL_Rect& tmove); 
     virtual void setsrc(const SDL_Rect& s);
     virtual void setmove(const SDL_Rect& m);
     virtual void setID(std::string ID);
@@ -26,6 +28,7 @@ protected:
     Coordinates coords;
     SDL_Rect src;
     SDL_Rect move;
+    SDL_Rect TreasureMove;
 private:
     std::string _cardID;
     CardType _cardType;

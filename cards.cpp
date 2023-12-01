@@ -40,5 +40,14 @@ SDL_Rect* Cards::getmove()
 {
     return &move;
 }
+SDL_Rect* Cards::getTreasureMove()
+{
+    return &TreasureMove;
+}
+void Cards::setTreasuremove(const SDL_Rect& tmove)
+{
+    TreasureMove = tmove;
+}
+
 void Cards::setcoordinates(Coordinates c)
 {}
