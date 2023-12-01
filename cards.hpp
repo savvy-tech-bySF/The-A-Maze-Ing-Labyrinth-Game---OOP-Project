@@ -14,13 +14,14 @@ public:
     std::string getID();
     virtual SDL_Rect* getsrc();
     virtual SDL_Rect* getmove();
-    virtual void setsrc(SDL_Rect s);
-    virtual void setmove(SDL_Rect m);
+    virtual void setsrc(const SDL_Rect& s);
+    virtual void setmove(const SDL_Rect& m);
     virtual void setID(std::string ID);
     virtual CardType getType();
     virtual void setType(CardType type);
     virtual Treasure getTreasure();
     virtual void setTreasure(Treasure t);
+    virtual void setcoordinates(Coordinates c);
 protected:
     Coordinates coords;
     SDL_Rect src;

@@ -65,8 +65,9 @@ bool Game::init()
 }
 int Game::highlightElements(SDL_Renderer*gRenderer, SDL_Texture* asset, bool highlightActive){
 	
-
+		// cout << highlightActive << " highlight elements" <<  endl;
 		static int i = 0;
+		// int j = i-1;
 		//cout<<i<<endl;
 		std::vector <SDL_Rect> arrow = {{672, 158, 45, 45},{672, 158, 45, 45},{672, 158, 45, 45},
 										{518, 656, 45, 45},{518, 656, 45, 45},{518, 656, 45, 45},
@@ -77,23 +78,24 @@ int Game::highlightElements(SDL_Renderer*gRenderer, SDL_Texture* asset, bool hig
 											{0, 155, 45, 45}, {162, 3, 45, 45}, {345, 4, 45, 45}, {518, 5, 45, 45} };
 		SDL_RenderCopy(gRenderer, asset, &arrow[i%12], &arrow_dest[i%12]);
 		if (highlightActive){
-
 			i+=1;
-			cout << i%13 << endl;
-			return i%13;
+			cout << i%12 << endl;
+		// 	return i%12;
 		}
-		return 0;
+		return (i%12)+1;
 }
 bool Game::handleKeyboardEvent(SDL_Event& e) {
     if (e.type == SDL_KEYDOWN) {
         switch (e.key.keysym.sym) {
             case SDLK_RIGHT:
-				highlightActive = true;
+				Game::highlightActive = true;
+				cout << Game::highlightActive << endl;
                 //highlightElements(gRenderer, asset); 
 				return false;
                 break;
             case SDLK_RETURN:
                 //enter key pressed
+				cout << "enter pressed\n";
                 return true;
                 break;
             default:
@@ -166,7 +168,7 @@ SDL_Texture* Game::loadTexture( std::string path )
 }
 void Game::startGame( )
 {
-	bool enter_key_pressed; 
+	bool enter_key_pressed = false; 
 	bool quit = false;
 	SDL_Event e;
 
@@ -194,6 +196,7 @@ void Game::startGame( )
                 // Handle keyboard events
 				//cout << "Keyboard key pressed"<< endl;
                 enter_key_pressed = handleKeyboardEvent(e);
+				cout << "key pressed\n";
             }
 		}
 
@@ -203,10 +206,11 @@ void Game::startGame( )
 		board.DrawBoard(gRenderer, assets);
 		
 		int arrow_number = highlightElements(gRenderer, assets1, highlightActive);
-		highlightActive = false;
+		Game::highlightActive = false;
 		if (enter_key_pressed)
 		{
 			board.insertMazeCard(arrow_number);
+			enter_key_pressed = false;
 		}
 		//drawObjects(gRenderer, assets);
 

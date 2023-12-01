@@ -9,6 +9,8 @@ Board::~Board() {
             grid[i][j] = nullptr; // Set pointer to null after deletion
         }
     }
+    delete usable;
+    usable = nullptr;
 }
 void Board::initializeBoard() 
 {
@@ -39,15 +41,15 @@ void Board::initializeBoard()
     // rows.push_back(check3);
     // rows.push_back(check4);
     // 
-    std::vector<std::vector<bool>> cannot_move = {
-        {true, false, true, false, true, false, true},
-        {false, false, false, false, false, false, false},
-        {true, false, true, false, true, false, true},
-        {false, false, false, false, false, false, false},
-        {true, false, true, false, true, false, true},
-        {false, false, false, false, false, false, false},
-        {true, false, true, false, true, false, true}
-    };
+    // std::vector<std::vector<bool>> cannot_move = {
+    //     {true, false, true, false, true, false, true},
+    //     {false, false, false, false, false, false, false},
+    //     {true, false, true, false, true, false, true},
+    //     {false, false, false, false, false, false, false},
+    //     {true, false, true, false, true, false, true},
+    //     {false, false, false, false, false, false, false},
+    //     {true, false, true, false, true, false, true}
+    // };
     grid = {
         {yellowBase, &check, Books, &check, Stash, &check, redBase},
         {&check, &check, &check, &check, &check, &check, &check},
@@ -93,9 +95,27 @@ void Board::initializeBoard()
 
             Coordinates c(startingRowXCoords[col], currentY); // Calculate X coordinate for each column
 
-            MazeCards* mazeCard = new MazeCards(c, srcRect);
+            Cards* mazeCard = new MazeCards(c, srcRect);
             mazeCard->setID(to_string(3 * col + row + 1)); // Assigning unique IDs
-            mazeCard->setType(three_sided); // You can set the type as needed
+            switch(randomIndex)
+            {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                    mazeCard->setType(corner); // You can set the type as needed
+                    break;
+                case 4:
+                case 5:
+                    mazeCard->setType(line); // You can set the type as needed
+                    break;
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                    mazeCard->setType(three_sided); // You can set the type as needed
+                    break;
+            }
             mazeCard->setTreasure(none); // Set the treasure type
 
             grid[mazecardindex[row]][cardindex[col]] = mazeCard;
@@ -117,34 +137,136 @@ void Board::initializeBoard()
 
 void Board::insertMazeCard(int arrow_num) 
 {
-   Coordinates c(815, 413);
-
+    Coordinates c(815, 413);
+    cout << " Function called\n";
+    // cout << arrow_num << endl;
+    int movable_index = arrow_num * 2 - 1; // Convert arrow number to index
     if (arrow_num >= 1 && arrow_num <= 3) {
-        int movable_index = arrow_num * 2 - 1; // Convert arrow number to index
-        Cards* temp = grid[movable_index][0];
-        for (int i = 6; i > 0; i--) {
-            grid[movable_index][i-1] = grid[movable_index][i];
+        Cards* temp = new MazeCards();
+        temp->setsrc(*(grid[movable_index][0]->getsrc()));
+        temp->setID((grid[movable_index][0]->getID()));
+        temp->setType((grid[movable_index][0]->getType()));
+        temp->setTreasure((grid[movable_index][0]->getTreasure()));
+
+        
+        for (int i = 0; i < 6; i++) {
+            cout<<grid[movable_index][i]->getID()<<endl;
+            MazeCards* currentCard = dynamic_cast<MazeCards*>(grid[movable_index][i + 1]);
+            grid[movable_index][i]->setsrc(*(currentCard->getsrc()));
+            grid[movable_index][i]->setID((currentCard->getID()));
+            grid[movable_index][i]->setType((currentCard->getType()));
+            grid[movable_index][i]->setTreasure((currentCard->getTreasure()));
         }
-        grid[movable_index][6] = usable;
+        grid[movable_index][6]->setsrc(*(usable->getsrc()));
+        grid[movable_index][6]->setID((usable->getID()));
+        grid[movable_index][6]->setType((usable->getType()));
+        grid[movable_index][6]->setTreasure((usable->getTreasure()));
+
+        //usable = new MazeCards(*temp); // Create a new MazeCards instance
         usable->setsrc(*(temp->getsrc()));
         usable->setmove({ 815, 413, 85, 85 });
         usable->setcoordinates(c);
+        usable->setID((temp->getID()));
+        usable->setType((temp->getType()));
+        usable->setTreasure((temp->getTreasure()));
         // Update the properties of the 'usable' card
-    } else if (arrow_num >= 7 && arrow_num <= 9) {
-        int movable_index = (arrow_num - 6) * 2 - 1; // Convert arrow number to index
-        for (int i = 0; i < 6; i++) {
-            grid[movable_index][i] = grid[movable_index][i + 1];
-        }
-        grid[movable_index][6] = usable;
+    } 
+    else if (arrow_num >= 4 && arrow_num <= 6)
+    {
+        movable_index = (-arrow_num * 2) + 13; // Convert arrow number to index
+        
+        Cards* temp = new MazeCards();
+        temp->setsrc(*(grid[0][movable_index]->getsrc()));
+        temp->setID((grid[0][movable_index]->getID()));
+        temp->setType((grid[0][movable_index]->getType()));
+        temp->setTreasure((grid[0][movable_index]->getTreasure()));
 
-        // Update the properties of the 'usable' card
-        usable->setsrc(*(grid[movable_index][5]->getsrc()));
+        
+        for (int i = 0; i < 6; i++) {
+            cout<<grid[movable_index][i]->getID()<<endl;
+            MazeCards* currentCard = dynamic_cast<MazeCards*>(grid[i+1][movable_index]);
+            grid[i][movable_index]->setsrc(*(currentCard->getsrc()));
+            grid[i][movable_index]->setID((currentCard->getID()));
+            grid[i][movable_index]->setType((currentCard->getType()));
+            grid[i][movable_index]->setTreasure((currentCard->getTreasure()));
+        }
+        grid[6][movable_index]->setsrc(*(usable->getsrc()));
+        grid[6][movable_index]->setID((usable->getID()));
+        grid[6][movable_index]->setType((usable->getType()));
+        grid[6][movable_index]->setTreasure((usable->getTreasure()));
+
+        //usable = new MazeCards(*temp); // Create a new MazeCards instance
+        usable->setsrc(*(temp->getsrc()));
         usable->setmove({ 815, 413, 85, 85 });
         usable->setcoordinates(c);
+        usable->setID((temp->getID()));
+        usable->setType((temp->getType()));
+        usable->setTreasure((temp->getTreasure()));
+        
     }
-    
-}
+    else if (arrow_num >= 7 && arrow_num <= 9) {
+        movable_index = (-arrow_num * 2) + 19;
+        cout<<movable_index<<", Movable index"<<endl; // Convert arrow number to index
+        Cards* temp = new MazeCards();
+        temp->setsrc(*(grid[movable_index][6]->getsrc()));
+        temp->setID((grid[movable_index][6]->getID()));
+        temp->setType((grid[movable_index][6]->getType()));
+        temp->setTreasure((grid[movable_index][6]->getTreasure()));
 
+        
+        for (int i = 6; i > 0; i--) {
+            //cout<<grid[movable_index][i]->getID()<<endl;
+            MazeCards* currentCard = dynamic_cast<MazeCards*>(grid[movable_index][i-1]);
+            grid[movable_index][i]->setsrc(*(currentCard->getsrc()));
+            grid[movable_index][i]->setID((currentCard->getID()));
+            grid[movable_index][i]->setType((currentCard->getType()));
+            grid[movable_index][i]->setTreasure((currentCard->getTreasure()));
+        }
+        grid[movable_index][0]->setsrc(*(usable->getsrc()));
+        grid[movable_index][0]->setID((usable->getID()));
+        grid[movable_index][0]->setType((usable->getType()));
+        grid[movable_index][0]->setTreasure((usable->getTreasure()));
+
+        //usable = new MazeCards(*temp); // Create a new MazeCards instance
+        usable->setsrc(*(temp->getsrc()));
+        usable->setmove({ 815, 413, 85, 85 });
+        usable->setcoordinates(c);
+        usable->setID((temp->getID()));
+        usable->setType((temp->getType()));
+        usable->setTreasure((temp->getTreasure()));
+    }
+    else if (arrow_num >= 10 && arrow_num <= 12) {
+        movable_index = (arrow_num * 2) - 19;
+        cout<<movable_index<<", Movable index"<<endl; // Convert arrow number to index
+        Cards* temp = new MazeCards();
+        temp->setsrc(*(grid[6][movable_index]->getsrc()));
+        temp->setID((grid[6][movable_index]->getID()));
+        temp->setType((grid[6][movable_index]->getType()));
+        temp->setTreasure((grid[6][movable_index]->getTreasure()));
+
+        
+        for (int i = 6; i > 0; i--) {
+            //cout<<grid[movable_index][i]->getID()<<endl;
+            MazeCards* currentCard = dynamic_cast<MazeCards*>(grid[i-1][movable_index]);
+            grid[i][movable_index]->setsrc(*(currentCard->getsrc()));
+            grid[i][movable_index]->setID((currentCard->getID()));
+            grid[i][movable_index]->setType((currentCard->getType()));
+            grid[i][movable_index]->setTreasure((currentCard->getTreasure()));
+        }
+        grid[0][movable_index]->setsrc(*(usable->getsrc()));
+        grid[0][movable_index]->setID((usable->getID()));
+        grid[0][movable_index]->setType((usable->getType()));
+        grid[0][movable_index]->setTreasure((usable->getTreasure()));
+
+        //usable = new MazeCards(*temp); // Create a new MazeCards instance
+        usable->setsrc(*(temp->getsrc()));
+        usable->setmove({ 815, 413, 85, 85 });
+        usable->setcoordinates(c);
+        usable->setID((temp->getID()));
+        usable->setType((temp->getType()));
+        usable->setTreasure((temp->getTreasure()));
+    }
+}
 void Board::movePlayer() {
     // Todo: Implement the logic to move the player on the board
 }

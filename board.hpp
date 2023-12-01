@@ -40,6 +40,6 @@ private:
         {1506,388,305,303},
         {1498,732,303,305}
     };
-    MazeCards* usable = new MazeCards();
+    Cards* usable = new MazeCards();
 
 };

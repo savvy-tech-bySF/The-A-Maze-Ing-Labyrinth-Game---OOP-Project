@@ -11,7 +11,7 @@ MazeCards::MazeCards(Coordinates c, SDL_Rect s)
     move.x = c.x; move.y = c.y; move.w = move.h = 85;
 }
 
-void MazeCards::setsrc(SDL_Rect s)  
+void MazeCards::setsrc(const SDL_Rect& s)
 {
     src = s;
 }
@@ -19,7 +19,7 @@ SDL_Rect* MazeCards::getsrc()
 {
     return &src;
 }
-void MazeCards::setmove(SDL_Rect m)
+void MazeCards::setmove(const SDL_Rect& m)
 {
     move = m;
 }
