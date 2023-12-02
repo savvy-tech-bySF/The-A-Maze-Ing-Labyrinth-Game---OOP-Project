@@ -284,6 +284,58 @@ void Board::insertMazeCard(int arrow_num)
         usable->setType((temp->getType()));
         usable->setTreasure((temp->getTreasure()));
 }
+void Board::rotateUsable()
+{
+    CardType c = usable->getType();
+    SDL_Rect current = *(usable->getsrc());
+    int newindex; 
+    if (compareRects(current, allmazecards[0]))
+    {
+        newindex = 1;
+    }
+    else if (compareRects(current, allmazecards[1]))
+    {
+        newindex = 2;
+    }
+    else if (compareRects(current, allmazecards[2]))
+    {
+        newindex = 3;
+    }
+    else if (compareRects(current, allmazecards[3]))
+    {
+        newindex = 0;
+    }
+    else if (compareRects(current, allmazecards[4]))
+    {
+        newindex = 5;
+    }
+    else if (compareRects(current, allmazecards[5]))
+    {
+        newindex = 4;
+    }
+    else if (compareRects(current, allmazecards[6]))
+    {
+        newindex = 7;
+    }
+    else if (compareRects(current, allmazecards[7]))
+    {
+        newindex = 8;
+    }
+    else if (compareRects(current, allmazecards[8]))
+    {
+        newindex = 9;
+    }
+    else if (compareRects(current, allmazecards[9]))
+    {
+        newindex = 6;
+    }
+    usable->setsrc(allmazecards[newindex]);
+}
+bool Board::compareRects(SDL_Rect a, SDL_Rect b)
+{
+    return (a.x == b.x && a.y == b.y && a.w == b.w && a.h == b.h);
+}
+
 void Board::movePlayer() {
     // Todo: Implement the logic to move the player on the board
 }

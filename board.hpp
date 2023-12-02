@@ -19,9 +19,11 @@ public:
     void initializeBoard(); 
     void insertMazeCard(int arrow_num); 
     void movePlayer(); 
-    void moveCard(); 
+    void moveCard();
+    void rotateUsable(); 
     void DrawBoard(SDL_Renderer*gRenderer, SDL_Texture* asset1, SDL_Texture* asset2);
     void DrawTreasures(SDL_Renderer* gRenderer, SDL_Texture* asset, MazeCards* mazeCard);
+    bool compareRects(SDL_Rect a, SDL_Rect b);
 private:
     std::vector<std::vector<Cards*>> grid;
     std::vector<FixedMaze> FM;

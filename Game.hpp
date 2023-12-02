@@ -55,6 +55,7 @@ private:
     Board board;
     bool highlightActiveRight = false;
     bool highlightActiveLeft = false;
+    bool rotate = false;
     
     //Stack treasureDeck;
 };

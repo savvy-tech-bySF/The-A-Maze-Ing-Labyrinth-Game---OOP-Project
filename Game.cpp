@@ -103,6 +103,10 @@ bool Game::handleKeyboardEvent(SDL_Event& e) {
 				highlightActiveLeft = true;
 				return false;
 				break;
+			case SDLK_r:
+				rotate = true;
+				return false;
+				break;
             case SDLK_RETURN:
                 //enter key pressed
 				cout << "enter pressed\n";
@@ -219,6 +223,11 @@ void Game::startGame( )
 		int arrow_number = highlightElements(gRenderer, assets1, highlightActiveRight, highlightActiveLeft);
 		highlightActiveRight = false;
 		highlightActiveLeft = false;
+		if (rotate)
+		{
+			board.rotateUsable();
+			rotate = false;
+		}
 		if (enter_key_pressed)
 		{
 			board.insertMazeCard(arrow_number);
