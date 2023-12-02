@@ -38,6 +38,10 @@ Treasure Player::getTop()
 {
     return toFind[0];
 }
+void Player::pop()
+{
+    toFind.erase(toFind.begin());
+}
 
 void Player::place_maze_card() {
     //Todo: Implement logic to place the out of range maze card on the board along with changing it's orientation

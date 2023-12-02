@@ -18,6 +18,7 @@ public:
     int getID() const;
     void addCard(Treasure t);
     Treasure getTop();
+    void pop();
 
     //void move(SDL_KeyboardEvent event); //Todo: Handle player movement based on SDL keyboard event (to be defined) 
 
