@@ -107,6 +107,11 @@ bool Game::handleKeyboardEvent(SDL_Event& e) {
 				rotate = true;
 				return false;
 				break;
+			case SDLK_v:
+				showCard = true;
+				tick = SDL_GetTicks();
+				return false;
+				break;
             case SDLK_RETURN:
                 //enter key pressed
 				cout << "enter pressed\n";
@@ -129,8 +134,9 @@ bool Game::loadMedia()
     cards2 = loadTexture("2.png");
     cards3 = loadTexture("3.png");
 	treasureTexture = loadTexture("treasuresallinone.png");
+	ShowTreasure = loadTexture("treasurecardsallinone.png");
     gTexture = loadTexture("gamescreen.png");
-	if(assets==NULL || gTexture==NULL || cards1==NULL || cards2==NULL || cards3==NULL || treasureTexture == NULL)
+	if(assets==NULL || gTexture==NULL || cards1==NULL || cards2==NULL || cards3==NULL || treasureTexture == NULL || ShowTreasure == NULL)
     {
         printf("Unable to run due to error: %s\n",SDL_GetError());
         success =false;
@@ -188,6 +194,8 @@ void Game::startGame( )
 	SDL_Event e;
 
 	board.initializeBoard();
+	board.AllocateCards(players);
+	Player current = players[0];
 
 	while( !quit )
 	{
@@ -223,6 +231,14 @@ void Game::startGame( )
 		int arrow_number = highlightElements(gRenderer, assets1, highlightActiveRight, highlightActiveLeft);
 		highlightActiveRight = false;
 		highlightActiveLeft = false;
+		if(showCard)
+		{
+			board.showTreasure(current, gRenderer, ShowTreasure);
+			if (SDL_GetTicks() >= tick + 2000)
+			{
+				showCard = false;
+			}
+		}
 		if (rotate)
 		{
 			board.rotateUsable();

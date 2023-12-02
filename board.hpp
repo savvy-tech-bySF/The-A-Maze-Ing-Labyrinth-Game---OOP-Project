@@ -2,6 +2,7 @@
 #include <vector>
 #include "MazeCards.hpp" 
 #include "FixedMazeCards.cpp"
+#include "Player.hpp"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
@@ -24,6 +25,8 @@ public:
     void DrawBoard(SDL_Renderer*gRenderer, SDL_Texture* asset1, SDL_Texture* asset2);
     void DrawTreasures(SDL_Renderer* gRenderer, SDL_Texture* asset, MazeCards* mazeCard);
     bool compareRects(SDL_Rect a, SDL_Rect b);
+    void AllocateCards(Player players[]);
+    void showTreasure(Player p, SDL_Renderer* gRenderer, SDL_Texture* asset);
 private:
     std::vector<std::vector<Cards*>> grid;
     std::vector<FixedMaze> FM;
@@ -58,6 +61,36 @@ private:
         {620,1920,152,90},  //moth
         {866,1856,128,204}, //ghost
     };
+
+    std::vector<SDL_Rect> showTreasures = 
+    {
+        {125,158,213,306}, //crown
+        {353,158,213,306}, //dragon
+        {582,158,213,306}, //ring
+        {810,158,213,306}, //books
+        {125,480,213,306}, //owl
+        {353,480,213,306}, //lizard
+        {582,460,213,306}, //witch
+        {810,480,213,306}, //bug
+        {125,803,214,308}, //emerald
+        {355,803,214,308}, //key
+        {585,803,215,308}, //helmet
+        {815,803,215,308}, //sword
+        {125,1127,214,308}, //stash
+        {355,1127,214,308}, //mouse
+        {585,1127,215,308}, //bat
+        {815,1127,215,308}, //spider
+        {116,1470,219,314}, //princess
+        {351,1470,219,319}, //map
+        {586,1470,218,314}, //genie
+        {821,1470,218,314}, //skull
+        {116,1801,219,314}, //candles
+        {351,1801,219,314}, //treasure_chest
+        {586,1801,218,314}, //moth
+        {821,1801,218,314}, //ghost
+    };
+
+    SDL_Rect ShowMover = {820, 123, 100, 145};
     Cards* usable = new MazeCards();
 
 };

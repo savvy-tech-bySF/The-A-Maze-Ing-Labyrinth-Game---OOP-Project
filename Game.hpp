@@ -32,6 +32,7 @@ class Game {
     SDL_Texture* cards2 = NULL;
     SDL_Texture* cards3 = NULL;
     SDL_Texture* treasureTexture = NULL;
+    SDL_Texture* ShowTreasure = NULL;
 
 
 public:
@@ -56,6 +57,8 @@ private:
     bool highlightActiveRight = false;
     bool highlightActiveLeft = false;
     bool rotate = false;
+    bool showCard = false;
+    int tick;
     
     //Stack treasureDeck;
 };

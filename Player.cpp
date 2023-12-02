@@ -29,6 +29,15 @@ int Player::getID() const {
 // TreasureCards* Player::getFound() {
 //     return foundTreasure; 
 // }
+void Player::addCard(Treasure t)
+{
+    toFind.push_back(t);
+}
+
+Treasure Player::getTop()
+{
+    return toFind[0];
+}
 
 void Player::place_maze_card() {
     //Todo: Implement logic to place the out of range maze card on the board along with changing it's orientation

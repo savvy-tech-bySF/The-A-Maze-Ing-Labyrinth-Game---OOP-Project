@@ -412,3 +412,25 @@ void Board::DrawTreasures(SDL_Renderer* gRenderer, SDL_Texture* asset, MazeCards
         SDL_RenderCopy(gRenderer, asset, &allTreasures[index], mazeCard->getTreasuremove());
     }
 }
+
+void Board::AllocateCards(Player players[])
+{
+    std::vector<Treasure> assign = {crown, dragon, ring, books, owl, lizard, witch, bug, 
+                emerald, key, helmet, sword, stash, mouse, bat, spider,
+                princess, map, genie, skull, candles, treasure_chest, moth, ghost};
+    for (int i = 0;i < 4;i++)
+    {
+        for (int j = 0;j<6;j++)
+        {
+            int randomIndex = rand() % assign.size();
+            players[i].addCard(assign[randomIndex]);
+            assign.erase(assign.begin() + randomIndex);
+        }
+    }
+    cout << assign.size()<<endl;
+}
+void Board::showTreasure(Player p, SDL_Renderer* gRenderer, SDL_Texture* asset)
+{
+    Treasure toShow = p.getTop();
+    SDL_RenderCopy(gRenderer, asset, &showTreasures[toShow-1], &ShowMover);
+}
