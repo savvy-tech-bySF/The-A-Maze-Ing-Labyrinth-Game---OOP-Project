@@ -90,6 +90,7 @@ int Game::highlightElements(SDL_Renderer*gRenderer, SDL_Texture* asset, bool hig
 		}
 		return (i%12)+1;
 }
+
 bool Game::handleKeyboardEvent(SDL_Event& e) {
     if (e.type == SDL_KEYDOWN) {
         switch (e.key.keysym.sym) {
@@ -117,10 +118,24 @@ bool Game::handleKeyboardEvent(SDL_Event& e) {
 				cout << "enter pressed\n";
                 return true;
                 break;
+			case SDLK_a:
+				current.move_player('a', &(board.grid), board.allmazecards);
+				
+				break;
+			case SDLK_w:
+				current.move_player('w', &(board.grid), board.allmazecards);
+				break;
+			case SDLK_s:
+				current.move_player('s', &(board.grid), board.allmazecards);
+				break;
+			case SDLK_d:
+				current.move_player('d', &(board.grid), board.allmazecards);
+				break;
             default:
 				return false;
                 break;
         }
+		return false;
     }
 }
 bool Game::loadMedia()
@@ -130,13 +145,14 @@ bool Game::loadMedia()
 	
 	assets = loadTexture("mazecards.png");
 	assets1 = loadTexture("highlightedarrow.png");
+	player_asset = loadTexture("playerdots.png");
     cards1 = loadTexture("1.png");
     cards2 = loadTexture("2.png");
     cards3 = loadTexture("3.png");
 	treasureTexture = loadTexture("treasuresallinone.png");
 	ShowTreasure = loadTexture("treasurecardsallinone.png");
     gTexture = loadTexture("gamescreen.png");
-	if(assets==NULL || gTexture==NULL || cards1==NULL || cards2==NULL || cards3==NULL || treasureTexture == NULL || ShowTreasure == NULL)
+	if(assets==NULL || gTexture==NULL || cards1==NULL || cards2==NULL || cards3==NULL || treasureTexture == NULL || ShowTreasure == NULL || player_asset == NULL)
     {
         printf("Unable to run due to error: %s\n",SDL_GetError());
         success =false;
@@ -195,7 +211,11 @@ void Game::startGame( )
 
 	board.initializeBoard();
 	board.AllocateCards(players);
-	Player current = players[0];
+	current = players[0];
+	current.src = {603, 73, 40, 41};
+	current.move = {603, 73, 40, 41};
+	current.row = 0;
+	current.col = 6;
 
 	while( !quit )
 	{
@@ -249,7 +269,7 @@ void Game::startGame( )
 			board.insertMazeCard(arrow_number);
 			enter_key_pressed = false;
 		}
-		//drawObjects(gRenderer, assets);
+		current.DrawPlayer(gRenderer, player_asset);
 
 		//****************************************************************
     	SDL_RenderPresent(gRenderer); //displays the updated renderer

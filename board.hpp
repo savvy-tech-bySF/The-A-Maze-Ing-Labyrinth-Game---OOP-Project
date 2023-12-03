@@ -27,7 +27,7 @@ public:
     bool compareRects(SDL_Rect a, SDL_Rect b);
     void AllocateCards(Player players[]);
     void showTreasure(Player p, SDL_Renderer* gRenderer, SDL_Texture* asset);
-private:
+//private:
     std::vector<std::vector<Cards*>> grid;
     std::vector<FixedMaze> FM;
     std::vector<SDL_Rect> allmazecards = {

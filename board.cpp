@@ -15,22 +15,22 @@ Board::~Board() {
 void Board::initializeBoard() 
 {
     //Todo: Initialize the board with fixed maze cards and starting players position
-    Coordinates c(56, 48); FixedMaze* yellowBase = new FixedMaze(c); yellowBase->setID("0"); yellowBase->setType(corner); yellowBase->setTreasure(none); FM.push_back(*yellowBase);
-    c.x = 226; FixedMaze* Books = new FixedMaze(c); Books->setID("1"); Books->setType(three_sided); Books->setTreasure(books);FM.push_back(*Books);
-    c.x=374; FixedMaze* Stash = new FixedMaze(c); Stash->setID("2"); Stash->setType(three_sided); Stash->setTreasure(stash);FM.push_back(*Stash);
-    c.x = 534; FixedMaze* redBase = new FixedMaze(c); redBase->setID("3"); redBase->setType(corner); redBase->setTreasure(none);FM.push_back(*redBase);
-    c.x = 56; c.y = 238; FixedMaze* Map = new FixedMaze(c); Map->setID("4"); Map->setType(three_sided); Map->setTreasure(map);FM.push_back(*Map);
-    c.x = 226; FixedMaze* Crown = new FixedMaze(c); Crown->setID("5"); Crown->setType(three_sided); Crown->setTreasure(crown);FM.push_back(*Crown);
-    c.x=374; FixedMaze* Key = new FixedMaze(c); Key->setID("6"); Key->setType(three_sided); Key->setTreasure(key);FM.push_back(*Key);
-    c.x = 534; FixedMaze* Skull = new FixedMaze(c); Skull->setID("7"); Skull->setType(three_sided); Skull->setTreasure(skull);FM.push_back(*Skull);
-    c.x = 56; c.y = 428; FixedMaze* Ring = new FixedMaze(c); Ring->setID("8"); Ring->setType(three_sided); Ring->setTreasure(ring);FM.push_back(*Ring);
-    c.x = 226; FixedMaze* Chest = new FixedMaze(c); Chest->setID("9"); Chest->setType(three_sided); Chest->setTreasure(treasure_chest);FM.push_back(*Chest);
-    c.x=374; FixedMaze* Emerald = new FixedMaze(c); Emerald->setID("10"); Emerald->setType(three_sided); Emerald->setTreasure(emerald);FM.push_back(*Emerald);
-    c.x = 534; FixedMaze* Sword = new FixedMaze(c); Sword->setID("11"); Sword->setType(three_sided); Sword->setTreasure(sword);FM.push_back(*Sword);
-    c.x = 56; c.y = 618; FixedMaze* greenBase = new FixedMaze(c); greenBase->setID("12"); greenBase->setType(corner); greenBase->setTreasure(none);FM.push_back(*greenBase);
-    c.x = 226; FixedMaze* Candles = new FixedMaze(c); Candles->setID("13"); Candles->setType(three_sided); Candles->setTreasure(candles);FM.push_back(*Candles);
-    c.x=374; FixedMaze* Helmet = new FixedMaze(c); Helmet->setID("14"); Helmet->setType(three_sided); Helmet->setTreasure(helmet);FM.push_back(*Helmet);
-    c.x = 534; FixedMaze* blueBase = new FixedMaze(c); blueBase->setID("15"); blueBase->setType(corner); blueBase->setTreasure(none);FM.push_back(*blueBase);
+    Coordinates c(56, 48); FixedMaze* yellowBase = new FixedMaze(c); yellowBase->setsrc(allmazecards[0]);yellowBase->setID("0"); yellowBase->setType(corner); yellowBase->setTreasure(none); FM.push_back(*yellowBase);
+    c.x = 226; FixedMaze* Books = new FixedMaze(c); Books->setsrc(allmazecards[8]); Books->setID("1"); Books->setType(three_sided); Books->setTreasure(books);FM.push_back(*Books);
+    c.x=374; FixedMaze* Stash = new FixedMaze(c); Stash->setsrc(allmazecards[8]); Stash->setID("2"); Stash->setType(three_sided); Stash->setTreasure(stash);FM.push_back(*Stash);
+    c.x = 534; FixedMaze* redBase = new FixedMaze(c); redBase->setsrc(allmazecards[2]); redBase->setID("3"); redBase->setType(corner); redBase->setTreasure(none);FM.push_back(*redBase);
+    c.x = 56; c.y = 238; FixedMaze* Map = new FixedMaze(c); Map->setsrc(allmazecards[9]); Map->setID("4"); Map->setType(three_sided); Map->setTreasure(map);FM.push_back(*Map);
+    c.x = 226; FixedMaze* Crown = new FixedMaze(c); Crown->setsrc(allmazecards[9]); Crown->setID("5"); Crown->setType(three_sided); Crown->setTreasure(crown);FM.push_back(*Crown);
+    c.x=374; FixedMaze* Key = new FixedMaze(c); Key->setsrc(allmazecards[8]); Key->setID("6"); Key->setType(three_sided); Key->setTreasure(key);FM.push_back(*Key);
+    c.x = 534; FixedMaze* Skull = new FixedMaze(c); Skull->setsrc(allmazecards[6]); Skull->setID("7"); Skull->setType(three_sided); Skull->setTreasure(skull);FM.push_back(*Skull);
+    c.x = 56; c.y = 428; FixedMaze* Ring = new FixedMaze(c); Ring->setsrc(allmazecards[9]); Ring->setID("8"); Ring->setType(three_sided); Ring->setTreasure(ring);FM.push_back(*Ring);
+    c.x = 226; FixedMaze* Chest = new FixedMaze(c); Chest->setsrc(allmazecards[7]); Chest->setID("9"); Chest->setType(three_sided); Chest->setTreasure(treasure_chest);FM.push_back(*Chest);
+    c.x=374; FixedMaze* Emerald = new FixedMaze(c); Emerald->setsrc(allmazecards[6]); Emerald->setID("10"); Emerald->setType(three_sided); Emerald->setTreasure(emerald);FM.push_back(*Emerald);
+    c.x = 534; FixedMaze* Sword = new FixedMaze(c); Sword->setsrc(allmazecards[6]); Sword->setID("11"); Sword->setType(three_sided); Sword->setTreasure(sword);FM.push_back(*Sword);
+    c.x = 56; c.y = 618; FixedMaze* greenBase = new FixedMaze(c); greenBase->setsrc(allmazecards[1]); greenBase->setID("12"); greenBase->setType(corner); greenBase->setTreasure(none);FM.push_back(*greenBase);
+    c.x = 226; FixedMaze* Candles = new FixedMaze(c); Candles->setsrc(allmazecards[7]); Candles->setID("13"); Candles->setType(three_sided); Candles->setTreasure(candles);FM.push_back(*Candles);
+    c.x=374; FixedMaze* Helmet = new FixedMaze(c); Helmet->setsrc(allmazecards[7]); Helmet->setID("14"); Helmet->setType(three_sided); Helmet->setTreasure(helmet);FM.push_back(*Helmet);
+    c.x = 534; FixedMaze* blueBase = new FixedMaze(c); blueBase->setsrc(allmazecards[3]); blueBase->setID("15"); blueBase->setType(corner); blueBase->setTreasure(none);FM.push_back(*blueBase);
 
     c.x = 146; c.y =48; MazeCards check(c, allmazecards[0]); check.setID("16"); check.setType(corner); check.setTreasure(none); check.setOrientation("SE"); //filler card
     // c.x = 321; MazeCards check2(c,l1); check2.setID("17"); check2.setType(line); check2.setTreasure(none); check2.setOrientation("WE");
@@ -209,6 +209,7 @@ void Board::insertMazeCard(int arrow_num)
         grid[movable_index][6]->setType((usable->getType()));
         grid[movable_index][6]->setTreasure((usable->getTreasure()));
         // Update the properties of the 'usable' card
+        
     } 
     else if (arrow_num >= 4 && arrow_num <= 6)
     {

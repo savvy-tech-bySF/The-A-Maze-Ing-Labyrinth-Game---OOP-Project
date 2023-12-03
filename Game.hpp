@@ -28,6 +28,7 @@ class Game {
     //global reference to png image sheets
     SDL_Texture* assets = NULL;
     SDL_Texture* assets1 = NULL;
+    SDL_Texture* player_asset = NULL;
     SDL_Texture* cards1 = NULL;
     SDL_Texture* cards2 = NULL;
     SDL_Texture* cards3 = NULL;
@@ -52,7 +53,7 @@ public:
 
 private:
     Player players[4]; // Assuming all 4 players are playing
-    Player* currentPlayer; 
+    Player current; 
     Board board;
     bool highlightActiveRight = false;
     bool highlightActiveLeft = false;
