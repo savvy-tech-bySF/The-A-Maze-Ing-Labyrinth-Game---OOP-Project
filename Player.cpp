@@ -166,54 +166,114 @@ bool Player::validate_move(SDL_Rect* adjacentCard, char direction, std::vector<s
 // TreasureCards* Player::getFound() {
 //     return foundTreasure; 
 // }
-void Player::move_player(char direction, std::vector<std::vector<Cards*>> *grid, std::vector<SDL_Rect> allmazecards) {
+void Player::move_player(char direction, std::vector<std::vector<Cards*>> *grid, std::vector<SDL_Rect> allmazecards, bool validate) {
     SDL_Rect* adjacentCard;
     SDL_Rect* current = (*grid)[row][col]->getsrc();
-    switch (direction) {
-        case 'w':
-        if ((row-1)>=0)
+    if (validate)
+    {
+
+        switch (direction) {
+            case 'w':
+            if ((row-1)>=0)
+                {
+                    adjacentCard = (*grid)[row-1][col]->getsrc();
+                }
+            if (validate_move(adjacentCard, direction, grid, allmazecards)&& validate_move(current, direction, grid, allmazecards, true))
             {
-                adjacentCard = (*grid)[row-1][col]->getsrc();
+                move.y -= 85; // Decrease Y coordinate for upward movement
+                row--;
             }
-        if (validate_move(adjacentCard, direction, grid, allmazecards)&& validate_move(current, direction, grid, allmazecards, true))
-        {
-            move.y -= 85; // Decrease Y coordinate for upward movement
-            row--;
+                break;
+            case 's':
+                if ((row+1)<=6)
+                {
+                    adjacentCard = (*grid)[row+1][col]->getsrc();
+                }
+                if (validate_move(adjacentCard, direction, grid, allmazecards) && validate_move(current, direction, grid, allmazecards, true)){
+                    move.y += 85; // Increase Y coordinate for downward movement
+                    row++;
+                }
+                break;
+            case 'a':
+                if ((col-1)>=0)
+                {
+                    adjacentCard = (*grid)[row][col-1]->getsrc();
+                }
+                if (validate_move(adjacentCard, direction, grid, allmazecards)&& validate_move(current, direction, grid, allmazecards, true)){
+                    move.x -= 85; // Decrease X coordinate for left movement
+                    col--;
+                }
+                break;
+            case 'd':
+                if ((col+1)<=6)
+                {
+                    adjacentCard = (*grid)[row][col+1]->getsrc();
+                }
+                if (validate_move(adjacentCard, direction, grid, allmazecards)&& validate_move(current, direction, grid, allmazecards, true)){
+                    move.x += 85; // Increase X coordinate for right movement
+                    col++;
+                }
+                break;
+            default:
+                std::cout << "Invalid direction input!" << std::endl;
+                break;
         }
-            break;
-        case 's':
-            if ((row+1)<=6)
-            {
-                adjacentCard = (*grid)[row+1][col]->getsrc();
-            }
-            if (validate_move(adjacentCard, direction, grid, allmazecards) && validate_move(current, direction, grid, allmazecards, true)){
-                move.y += 85; // Increase Y coordinate for downward movement
-                row++;
-            }
-            break;
-        case 'a':
-            if ((col-1)>=0)
-            {
-                adjacentCard = (*grid)[row][col-1]->getsrc();
-            }
-            if (validate_move(adjacentCard, direction, grid, allmazecards)&& validate_move(current, direction, grid, allmazecards, true)){
-                move.x -= 85; // Decrease X coordinate for left movement
-                col--;
-            }
-            break;
-        case 'd':
-            if ((col+1)<=6)
-            {
-                adjacentCard = (*grid)[row][col+1]->getsrc();
-            }
-            if (validate_move(adjacentCard, direction, grid, allmazecards)&& validate_move(current, direction, grid, allmazecards, true)){
-                move.x += 85; // Increase X coordinate for right movement
-                col++;
-            }
-            break;
-        default:
-            std::cout << "Invalid direction input!" << std::endl;
-            break;
+    }
+    else
+    {
+        std::cout << "move player with card\n";
+        switch(direction)
+        {
+            case 'w':
+                if (row-1>=0)
+                {
+                    move.y -= 85;
+                    row--;
+                }
+                else if (row == 0)
+                {
+                    move.y += 85*6;
+                    row = 6;
+                }
+                break;
+            case 's':
+                if (row+1<=6)
+                {
+                    move.y += 85;
+                    row++;
+                }
+                else if (row == 6)
+                {
+                    move.y -= 85*6;
+                    row = 0;
+                }
+                break;
+            case 'a':
+                if (col-1>=0)
+                {
+                    move.x -= 85;
+                    col--;
+                }
+                else if (col == 0)
+                {
+                    move.x += 85*6;
+                    col = 6;
+                }
+                break;
+            case 'd':
+                if (col+1<=6)
+                {
+                    move.x += 85;
+                    col++;
+                }
+                else if (col == 6)
+                {
+                    move.x -= 85*6;
+                    col = 0;
+                    std::cout << "move updated\n";
+                }
+                break;
+        }
     }
 
     std::cout<<"move_player called"<<std::endl;

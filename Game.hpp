@@ -52,8 +52,8 @@ public:
     
 
 private:
-    Player players[4]; // Assuming all 4 players are playing
-    Player current; 
+    Player* players[4]; // Assuming all 4 players are playing
+    Player* current; 
     Board board;
     bool highlightActiveRight = false;
     bool highlightActiveLeft = false;

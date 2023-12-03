@@ -18,15 +18,15 @@ public:
     Board(); 
     ~Board();
     void initializeBoard(); 
-    void insertMazeCard(int arrow_num); 
+    void insertMazeCard(int arrow_num, Player* players[]); 
     void movePlayer(); 
     void moveCard();
     void rotateUsable(); 
     void DrawBoard(SDL_Renderer*gRenderer, SDL_Texture* asset1, SDL_Texture* asset2);
     void DrawTreasures(SDL_Renderer* gRenderer, SDL_Texture* asset, MazeCards* mazeCard);
     bool compareRects(SDL_Rect a, SDL_Rect b);
-    void AllocateCards(Player players[]);
-    void showTreasure(Player p, SDL_Renderer* gRenderer, SDL_Texture* asset);
+    void AllocateCards(Player* players[]);
+    void showTreasure(Player* p, SDL_Renderer* gRenderer, SDL_Texture* asset);
 //private:
     std::vector<std::vector<Cards*>> grid;
     std::vector<FixedMaze> FM;

@@ -119,17 +119,17 @@ bool Game::handleKeyboardEvent(SDL_Event& e) {
                 return true;
                 break;
 			case SDLK_a:
-				current.move_player('a', &(board.grid), board.allmazecards);
+				current->move_player('a', &(board.grid), board.allmazecards);
 				
 				break;
 			case SDLK_w:
-				current.move_player('w', &(board.grid), board.allmazecards);
+				current->move_player('w', &(board.grid), board.allmazecards);
 				break;
 			case SDLK_s:
-				current.move_player('s', &(board.grid), board.allmazecards);
+				current->move_player('s', &(board.grid), board.allmazecards);
 				break;
 			case SDLK_d:
-				current.move_player('d', &(board.grid), board.allmazecards);
+				current->move_player('d', &(board.grid), board.allmazecards);
 				break;
             default:
 				return false;
@@ -208,14 +208,21 @@ void Game::startGame( )
 	bool enter_key_pressed = false; 
 	bool quit = false;
 	SDL_Event e;
-
+	Player* p1 = new Player();
+	Player* p2 = new Player();
+	Player* p3 = new Player();
+	Player* p4 = new Player();
+	players[0] = p1;
+	players[1] = p2;
+	players[2] = p3;
+	players[3] = p4;
 	board.initializeBoard();
 	board.AllocateCards(players);
 	current = players[0];
-	current.src = {603, 73, 40, 41};
-	current.move = {603, 73, 40, 41};
-	current.row = 0;
-	current.col = 6;
+	current->src = {603, 73, 40, 41};
+	current->move = {603, 73, 40, 41};
+	current->row = 0;
+	current->col = 6;
 
 	while( !quit )
 	{
@@ -247,6 +254,7 @@ void Game::startGame( )
 		SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);//Draws background to renderer
 		//***********************draw the objects here********************
 		board.DrawBoard(gRenderer, assets, treasureTexture);
+		current->DrawPlayer(gRenderer, player_asset);
 		
 		int arrow_number = highlightElements(gRenderer, assets1, highlightActiveRight, highlightActiveLeft);
 		highlightActiveRight = false;
@@ -266,10 +274,9 @@ void Game::startGame( )
 		}
 		if (enter_key_pressed)
 		{
-			board.insertMazeCard(arrow_number);
+			board.insertMazeCard(arrow_number, players);
 			enter_key_pressed = false;
 		}
-		current.DrawPlayer(gRenderer, player_asset);
 
 		//****************************************************************
     	SDL_RenderPresent(gRenderer); //displays the updated renderer

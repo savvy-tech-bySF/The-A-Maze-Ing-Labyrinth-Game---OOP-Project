@@ -29,7 +29,7 @@ public:
     // void addTreasureCard(TreasureCards* Card);
     bool validate_move(SDL_Rect* adjacentCard, char direction, std::vector<std::vector<Cards*>> *grid, std::vector<SDL_Rect> allmazecards, bool current = false);
     void place_maze_card(); // Place the out of range maze card on the board
-    void move_player(char direction, std::vector<std::vector<Cards*>> *grid, std::vector<SDL_Rect> allmazecards);
+    void move_player(char direction, std::vector<std::vector<Cards*>> *grid, std::vector<SDL_Rect> allmazecards, bool validate=true);
 //private:
     int playerID;
     //int treasures; if we change the amount of players who can play. Default are 4

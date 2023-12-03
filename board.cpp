@@ -182,7 +182,7 @@ void Board::initializeBoard()
 
 };
 
-void Board::insertMazeCard(int arrow_num) 
+void Board::insertMazeCard(int arrow_num, Player* players[]) 
 {
     Coordinates c(815, 413);
     cout << " Function called\n";
@@ -209,6 +209,13 @@ void Board::insertMazeCard(int arrow_num)
         grid[movable_index][6]->setType((usable->getType()));
         grid[movable_index][6]->setTreasure((usable->getTreasure()));
         // Update the properties of the 'usable' card
+        for(int p = 0;p < 4;p++)
+        {
+            if (players[p]->row == movable_index)
+            {
+                players[p]->move_player('a', &grid, allmazecards, false);
+            }
+        }
         
     } 
     else if (arrow_num >= 4 && arrow_num <= 6)
@@ -232,6 +239,13 @@ void Board::insertMazeCard(int arrow_num)
         grid[6][movable_index]->setID((usable->getID()));
         grid[6][movable_index]->setType((usable->getType()));
         grid[6][movable_index]->setTreasure((usable->getTreasure()));
+        for(int p = 0;p < 4;p++)
+        {
+            if (players[p]->col == movable_index)
+            {
+                players[p]->move_player('w', &grid, allmazecards, false);
+            }
+        }
     }
     else if (arrow_num >= 7 && arrow_num <= 9) {
         movable_index = (-arrow_num * 2) + 19;
@@ -253,6 +267,13 @@ void Board::insertMazeCard(int arrow_num)
         grid[movable_index][0]->setID((usable->getID()));
         grid[movable_index][0]->setType((usable->getType()));
         grid[movable_index][0]->setTreasure((usable->getTreasure()));
+        for(int p = 0;p < 4;p++)
+        {
+            if (players[p]->row == movable_index)
+            {
+                players[p]->move_player('d', &grid, allmazecards, false);
+            }
+        }
     }
     else if (arrow_num >= 10 && arrow_num <= 12) {
         movable_index = (arrow_num * 2) - 19;
@@ -275,7 +296,13 @@ void Board::insertMazeCard(int arrow_num)
         grid[0][movable_index]->setID((usable->getID()));
         grid[0][movable_index]->setType((usable->getType()));
         grid[0][movable_index]->setTreasure((usable->getTreasure()));
-
+        for(int p = 0;p < 4;p++)
+        {
+            if (players[p]->col == movable_index)
+            {
+                players[p]->move_player('s', &grid, allmazecards, false);
+            }
+        }
     }
         usable->setsrc(*(temp->getsrc()));
         usable->setmove({ 815, 413, 85, 85 });
@@ -414,7 +441,7 @@ void Board::DrawTreasures(SDL_Renderer* gRenderer, SDL_Texture* asset, MazeCards
     }
 }
 
-void Board::AllocateCards(Player players[])
+void Board::AllocateCards(Player* players[])
 {
     std::vector<Treasure> assign = {crown, dragon, ring, books, owl, lizard, witch, bug, 
                 emerald, key, helmet, sword, stash, mouse, bat, spider,
@@ -424,14 +451,14 @@ void Board::AllocateCards(Player players[])
         for (int j = 0;j<6;j++)
         {
             int randomIndex = rand() % assign.size();
-            players[i].addCard(assign[randomIndex]);
+            players[i]->addCard(assign[randomIndex]);
             assign.erase(assign.begin() + randomIndex);
         }
     }
     cout << assign.size()<<endl;
 }
-void Board::showTreasure(Player p, SDL_Renderer* gRenderer, SDL_Texture* asset)
+void Board::showTreasure(Player* p, SDL_Renderer* gRenderer, SDL_Texture* asset)
 {
-    Treasure toShow = p.getTop();
+    Treasure toShow = p->getTop();
     SDL_RenderCopy(gRenderer, asset, &showTreasures[toShow-1], &ShowMover);
 }
