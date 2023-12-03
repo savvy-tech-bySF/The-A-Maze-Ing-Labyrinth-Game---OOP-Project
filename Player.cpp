@@ -215,6 +215,7 @@ void Player::move_player(char direction, std::vector<std::vector<Cards*>> *grid,
             std::cout << "Invalid direction input!" << std::endl;
             break;
     }
+
     std::cout<<"move_player called"<<std::endl;
     std::cout<<"row "<<row<<" col "<<col<<std::endl;
 }
