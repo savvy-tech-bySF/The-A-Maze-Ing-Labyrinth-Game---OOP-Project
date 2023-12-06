@@ -5,6 +5,7 @@ int main(int argc, char* argv[])
 {
     Game game;
     srand(time(NULL));
+    //system("gameintrovid.mp4");
     if( !game.init() ){
 		printf( "Failed to initialize!\n" );
         return 0;

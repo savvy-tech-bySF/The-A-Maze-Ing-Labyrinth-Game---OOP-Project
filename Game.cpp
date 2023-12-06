@@ -63,70 +63,7 @@ bool Game::init()
 
 	return success;
 }
-void Game::highlightElements(bool highlightActiveRight, bool highlightActiveLeft){
-	
-		// cout << highlightActive << " highlight elements" <<  endl;
-		// int j = i-1;
-		//cout<<i<<endl;
-		if (highlightActiveRight){
-			arrow_num+=1;
-		}
-		if (highlightActiveLeft)
-		{
-			arrow_num-=1;
-		}
-		if (arrow_num <0)
-		{
-			arrow_num+=12;
-		}
-		arrow_num = (arrow_num % 12);
-}
 
-bool Game::handleKeyboardEvent(SDL_Event& e) {
-    if (e.type == SDL_KEYDOWN) {
-        switch (e.key.keysym.sym) {
-            case SDLK_RIGHT:
-				highlightActiveRight = true;
-				highlightElements(true, false);
-				cout << highlightActiveRight << endl;
-                break;
-			case SDLK_LEFT:
-				highlightElements(false, true);
-				break;
-			case SDLK_r:
-				board.rotateUsable();
-				break;
-			case SDLK_v:
-				tick = SDL_GetTicks();
-				break;
-			case SDLK_e:
-				current = players[1];
-            case SDLK_RETURN:
-                //enter key pressed
-				cout << arrow_num << endl;
-				board.insertMazeCard(arrow_num, players);
-				// cout << "enter pressed\n";
-                break;
-			case SDLK_a:
-				current->move_player('a', &(board.grid), board.allmazecards);
-				
-				break;
-			case SDLK_w:
-				current->move_player('w', &(board.grid), board.allmazecards);
-				break;
-			case SDLK_s:
-				current->move_player('s', &(board.grid), board.allmazecards);
-				break;
-			case SDLK_d:
-				current->move_player('d', &(board.grid), board.allmazecards);
-				break;
-            default:
-				return false;
-                break;
-        }
-		return false;
-    }
-}
 bool Game::loadMedia()
 {
 	//Loading success flag
@@ -211,7 +148,11 @@ void Game::startGame( )
 			if (e.type == SDL_KEYDOWN) {
                 // Handle keyboard events
 				//cout << "Keyboard key pressed"<< endl;
-                handleKeyboardEvent(e);
+                tick = keyevents.handleKeyboardEvent(e, board, players, &current);
+				if (tick!=0)
+				{
+					showCard=true;
+				}
 				cout << "key pressed\n";
             }
 		}
@@ -220,8 +161,12 @@ void Game::startGame( )
 		SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);//Draws background to renderer
 		//***********************draw the objects here********************
 		board.DrawBoard(gRenderer, assets, treasureTexture);
+		players[0]->DrawPlayer(gRenderer, player_asset);
+		players[1]->DrawPlayer(gRenderer, player_asset);
+		players[2]->DrawPlayer(gRenderer, player_asset);
+		players[3]->DrawPlayer(gRenderer, player_asset);
 		current->DrawPlayer(gRenderer, player_asset);
-		SDL_RenderCopy(gRenderer, assets1, &arrow[arrow_num], &arrow_dest[arrow_num]);
+		SDL_RenderCopy(gRenderer, assets1, &arrow[keyevents.arrow_num], &arrow_dest[keyevents.arrow_num]);
 
 		
 		if(showCard)
@@ -269,25 +214,26 @@ void Game::initializePlayers()
 	green = new Player();
 	green->src = {83,591,37,37};
 	green->move = {83,591,37,37};
-	green->row = 0;
+	green->row = 6;
 	green->col = 0;
 	blue = new Player();
 	blue->src = {611,592,35,35};
 	blue->move = {611,592,35,35};
-	blue->row = 0;
-	blue->col = 0;
+	blue->row = 6;
+	blue->col = 6;
 	players[0] = red;
 	players[1] = yellow;
 	players[2] = green;
 	players[3] = blue;
+	current = players[0];
 }
 
 // void Game::startGame() {
 //Todo: Logic to initialize the game, distribute cards, set up the board
 // }
 
-void Game::playTurn() {
-    //Todo: Logic for playing a turn, handling player actions, moving pieces, determining the correct move.
+void Game::playTurn(SDL_Event e) {
+    
 }
 
 bool Game::isGameOver() {

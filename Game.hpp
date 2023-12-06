@@ -3,6 +3,7 @@
 #include "Board.hpp"
 #include "Stack.hpp"
 #include "TreasureCards.cpp"
+#include "handlekeyboardevent.hpp"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
@@ -40,13 +41,11 @@ public:
     Game(); 
     void startGame(); 
     void initializePlayers();
-    void playTurn(); 
+    void playTurn(SDL_Event e); 
     bool isGameOver(); 
     void displayWinner(); 
     bool init();
     bool loadMedia();
-    bool handleKeyboardEvent(SDL_Event& e);
-    void highlightElements(bool highlightActiveRight, bool highlightActiveLeft);
     void Initialize();
     void close();
     SDL_Texture* loadTexture( std::string path );
@@ -60,12 +59,10 @@ private:
     Player* green;
     Player* blue;
     Board board;
-    bool highlightActiveRight = false;
-    bool highlightActiveLeft = false;
+    int tick;
     bool rotate = false;
     bool showCard = false;
-    int tick;
-    int arrow_num{0};
+    handlekeyboardevent keyevents;
     //Stack treasureDeck;
     std::vector <SDL_Rect> arrow = {{672, 158, 45, 45},{672, 158, 45, 45},{672, 158, 45, 45},
 										{518, 656, 45, 45},{518, 656, 45, 45},{518, 656, 45, 45},

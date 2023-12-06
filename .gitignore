@@ -2,3 +2,5 @@ build
 a.exe
 *.exe
 a.exe
+opencv/
+*.exe

@@ -31,6 +31,9 @@ public:
     void place_maze_card(); // Place the out of range maze card on the board
     void move_player(char direction, std::vector<std::vector<Cards*>> *grid, std::vector<SDL_Rect> allmazecards, bool validate=true);
 //private:
+    bool isplacingcardallowed();
+    bool isrotationallowed();
+    bool ismovementallowed();
     int playerID;
     //int treasures; if we change the amount of players who can play. Default are 4
     //Stack cards;
@@ -38,6 +41,7 @@ public:
     int col;
     SDL_Rect src;
     SDL_Rect move; 
+    bool card_placed = false, playermovement = false, rotation = true, player_turn_ended = false;
     std::vector<Treasure> toFind; /*
     //! Assuming there are four players playing so each player gets 6 treasure cards */ 
     MazeCards mazecard;

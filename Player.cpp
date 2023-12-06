@@ -154,18 +154,35 @@ bool Player::validate_move(SDL_Rect* adjacentCard, char direction, std::vector<s
 
     return false; // No matching card found for the adjacent move
 }
-// void Player::addTreasureCard(TreasureCards* Card){
-//     cards.push(*Card);
-// }
-// bool Player::checkTreasure() {
-//     //Todo: Implement logic to check for found treasure 
-//     /*
-//     !Return true if treasure found*/ 
-// }
-
-// TreasureCards* Player::getFound() {
-//     return foundTreasure; 
-// }
+bool Player::isplacingcardallowed()
+{
+    if (!card_placed)
+    {
+        return true;
+    }
+}
+bool Player::isrotationallowed()
+{
+    if (!player_turn_ended && !card_placed)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+bool Player::ismovementallowed()
+{
+    if (card_placed)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 void Player::move_player(char direction, std::vector<std::vector<Cards*>> *grid, std::vector<SDL_Rect> allmazecards, bool validate) {
     SDL_Rect* adjacentCard;
     SDL_Rect* current = (*grid)[row][col]->getsrc();
