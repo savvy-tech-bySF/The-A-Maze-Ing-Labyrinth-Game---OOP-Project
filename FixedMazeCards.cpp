@@ -9,19 +9,19 @@ public:
     Coordinates coords;
     void setsrc(const SDL_Rect& s)
     {
-        src = s;
+        Cards::src = s;
     }
     SDL_Rect* getsrc()
     {
-        return &src;
+        return &(Cards::src);
     }
     void setmove(const SDL_Rect& m)
     {
-        move = m;
+        Cards::move = m;
     }
     SDL_Rect* getmove()
     {
-        return &move;
+        return &(Cards::move);
     }
 private:
 };

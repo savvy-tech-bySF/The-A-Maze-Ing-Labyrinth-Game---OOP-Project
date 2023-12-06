@@ -63,32 +63,23 @@ bool Game::init()
 
 	return success;
 }
-int Game::highlightElements(SDL_Renderer*gRenderer, SDL_Texture* asset, bool highlightActiveRight, bool highlightActiveLeft){
+void Game::highlightElements(bool highlightActiveRight, bool highlightActiveLeft){
 	
 		// cout << highlightActive << " highlight elements" <<  endl;
-		static int i = 0;
 		// int j = i-1;
 		//cout<<i<<endl;
-		std::vector <SDL_Rect> arrow = {{672, 158, 45, 45},{672, 158, 45, 45},{672, 158, 45, 45},
-										{518, 656, 45, 45},{518, 656, 45, 45},{518, 656, 45, 45},
-										{0, 507, 45, 45},{0, 507, 45, 45},{0, 507, 45, 45},
-										 {162, 3, 45, 45},{162, 3, 45, 45},{162, 3, 45, 45}};
-		std::vector <SDL_Rect> arrow_dest = {{672, 158, 45, 45},{672, 337, 45, 45}, {672, 510, 45, 45}, {518, 656, 45, 45},
-											{345, 656, 45, 45}, {162, 653, 45, 45}, {0, 507, 45, 45}, {0, 328, 45, 45},
-											{0, 155, 45, 45}, {162, 3, 45, 45}, {345, 4, 45, 45}, {518, 5, 45, 45} };
-		SDL_RenderCopy(gRenderer, asset, &arrow[i%12], &arrow_dest[i%12]);
 		if (highlightActiveRight){
-			i+=1;
+			arrow_num+=1;
 		}
 		if (highlightActiveLeft)
 		{
-			i-=1;
+			arrow_num-=1;
 		}
-		if (i <0)
+		if (arrow_num <0)
 		{
-			i+=12;
+			arrow_num+=12;
 		}
-		return (i%12)+1;
+		arrow_num = (arrow_num % 12);
 }
 
 bool Game::handleKeyboardEvent(SDL_Event& e) {
@@ -96,27 +87,25 @@ bool Game::handleKeyboardEvent(SDL_Event& e) {
         switch (e.key.keysym.sym) {
             case SDLK_RIGHT:
 				highlightActiveRight = true;
+				highlightElements(true, false);
 				cout << highlightActiveRight << endl;
-                //highlightElements(gRenderer, asset); 
-				return false;
                 break;
 			case SDLK_LEFT:
-				highlightActiveLeft = true;
-				return false;
+				highlightElements(false, true);
 				break;
 			case SDLK_r:
-				rotate = true;
-				return false;
+				board.rotateUsable();
 				break;
 			case SDLK_v:
-				showCard = true;
 				tick = SDL_GetTicks();
-				return false;
 				break;
+			case SDLK_e:
+				current = players[1];
             case SDLK_RETURN:
                 //enter key pressed
-				cout << "enter pressed\n";
-                return true;
+				cout << arrow_num << endl;
+				board.insertMazeCard(arrow_num, players);
+				// cout << "enter pressed\n";
                 break;
 			case SDLK_a:
 				current->move_player('a', &(board.grid), board.allmazecards);
@@ -205,24 +194,9 @@ SDL_Texture* Game::loadTexture( std::string path )
 }
 void Game::startGame( )
 {
-	bool enter_key_pressed = false; 
 	bool quit = false;
 	SDL_Event e;
-	Player* p1 = new Player();
-	Player* p2 = new Player();
-	Player* p3 = new Player();
-	Player* p4 = new Player();
-	players[0] = p1;
-	players[1] = p2;
-	players[2] = p3;
-	players[3] = p4;
-	board.initializeBoard();
-	board.AllocateCards(players);
-	current = players[0];
-	current->src = {603, 73, 40, 41};
-	current->move = {603, 73, 40, 41};
-	current->row = 0;
-	current->col = 6;
+	Initialize();
 
 	while( !quit )
 	{
@@ -234,18 +208,10 @@ void Game::startGame( )
 			{
 				quit = true;
 			}
-
-			if(e.type == SDL_MOUSEBUTTONDOWN){
-			
-				int xMouse, yMouse;
-				SDL_GetMouseState(&xMouse,&yMouse);
-				cout << xMouse << " " << yMouse << endl;
-				//createObject(xMouse, yMouse);
-			}
 			if (e.type == SDL_KEYDOWN) {
                 // Handle keyboard events
 				//cout << "Keyboard key pressed"<< endl;
-                enter_key_pressed = handleKeyboardEvent(e);
+                handleKeyboardEvent(e);
 				cout << "key pressed\n";
             }
 		}
@@ -255,10 +221,9 @@ void Game::startGame( )
 		//***********************draw the objects here********************
 		board.DrawBoard(gRenderer, assets, treasureTexture);
 		current->DrawPlayer(gRenderer, player_asset);
+		SDL_RenderCopy(gRenderer, assets1, &arrow[arrow_num], &arrow_dest[arrow_num]);
+
 		
-		int arrow_number = highlightElements(gRenderer, assets1, highlightActiveRight, highlightActiveLeft);
-		highlightActiveRight = false;
-		highlightActiveLeft = false;
 		if(showCard)
 		{
 			board.showTreasure(current, gRenderer, ShowTreasure);
@@ -266,16 +231,6 @@ void Game::startGame( )
 			{
 				showCard = false;
 			}
-		}
-		if (rotate)
-		{
-			board.rotateUsable();
-			rotate = false;
-		}
-		if (enter_key_pressed)
-		{
-			board.insertMazeCard(arrow_number, players);
-			enter_key_pressed = false;
 		}
 
 		//****************************************************************
@@ -289,6 +244,42 @@ void Game::startGame( )
 Game::Game() {
     //Todo: Initialize players with their treasure cards
 	
+}
+
+void Game::Initialize()
+{
+	board.initializeBoard();
+	initializePlayers();
+	board.AllocateCards(players);
+	current = players[0];
+}
+
+void Game::initializePlayers()
+{
+	red = new Player();
+	red->src = {603, 73, 40, 41};
+	red->move = {603, 73, 40, 41};
+	red->row = 0;
+	red->col = 6;
+	yellow = new Player();
+	yellow->src = {82, 73, 41, 42};
+	yellow->move = {82, 73, 41, 42};
+	yellow->row = 0;
+	yellow->col = 0;
+	green = new Player();
+	green->src = {83,591,37,37};
+	green->move = {83,591,37,37};
+	green->row = 0;
+	green->col = 0;
+	blue = new Player();
+	blue->src = {611,592,35,35};
+	blue->move = {611,592,35,35};
+	blue->row = 0;
+	blue->col = 0;
+	players[0] = red;
+	players[1] = yellow;
+	players[2] = green;
+	players[3] = blue;
 }
 
 // void Game::startGame() {

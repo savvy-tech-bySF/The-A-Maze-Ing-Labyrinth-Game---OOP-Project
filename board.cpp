@@ -1,7 +1,9 @@
 
 #include "board.hpp"
 Board::Board() 
-{}
+{
+    //initializeBoard();
+}
 Board::~Board() {
     for (size_t i = 0; i < grid.size(); ++i) {
         for (size_t j = 0; j < grid[i].size(); ++j) {
@@ -149,7 +151,7 @@ void Board::initializeBoard()
         }
 
     }
-    cout << T_assign.size() << endl;
+    // cout << T_assign.size() << endl;
     //cout<<"rows made"<<endl;
     int i = rand() % allmazecards.size();
     SDL_Rect srcRect = allmazecards[i];
@@ -185,11 +187,12 @@ void Board::initializeBoard()
 void Board::insertMazeCard(int arrow_num, Player* players[]) 
 {
     Coordinates c(815, 413);
-    cout << " Function called\n";
+    // cout << " Function called\n";
     // cout << arrow_num << endl;
-    int movable_index = arrow_num * 2 - 1; // Convert arrow number to index
     Cards* temp = new MazeCards();
-    if (arrow_num >= 1 && arrow_num <= 3) {
+    int movable_index;
+    if (arrow_num >= 0 && arrow_num <= 2) {
+        movable_index = (arrow_num*2)+1; // Convert arrow number to index
         temp->setsrc(*(grid[movable_index][0]->getsrc()));
         temp->setID((grid[movable_index][0]->getID()));
         temp->setType((grid[movable_index][0]->getType()));
@@ -197,7 +200,7 @@ void Board::insertMazeCard(int arrow_num, Player* players[])
 
         
         for (int i = 0; i < 6; i++) {
-            cout<<grid[movable_index][i]->getID()<<endl;
+            // cout<<grid[movable_index][i]->getID()<<endl;
             MazeCards* currentCard = dynamic_cast<MazeCards*>(grid[movable_index][i + 1]);
             grid[movable_index][i]->setsrc(*(currentCard->getsrc()));
             grid[movable_index][i]->setID((currentCard->getID()));
@@ -218,9 +221,9 @@ void Board::insertMazeCard(int arrow_num, Player* players[])
         }
         
     } 
-    else if (arrow_num >= 4 && arrow_num <= 6)
+    else if (arrow_num >= 3 && arrow_num <= 5)
     {
-        movable_index = (-arrow_num * 2) + 13; // Convert arrow number to index
+        movable_index = (-arrow_num * 2) + 11; // Convert arrow number to index
         temp->setsrc(*(grid[0][movable_index]->getsrc()));
         temp->setID((grid[0][movable_index]->getID()));
         temp->setType((grid[0][movable_index]->getType()));
@@ -228,7 +231,7 @@ void Board::insertMazeCard(int arrow_num, Player* players[])
 
         
         for (int i = 0; i < 6; i++) {
-            cout<<grid[movable_index][i]->getID()<<endl;
+            // cout<<grid[movable_index][i]->getID()<<endl;
             MazeCards* currentCard = dynamic_cast<MazeCards*>(grid[i+1][movable_index]);
             grid[i][movable_index]->setsrc(*(currentCard->getsrc()));
             grid[i][movable_index]->setID((currentCard->getID()));
@@ -247,9 +250,9 @@ void Board::insertMazeCard(int arrow_num, Player* players[])
             }
         }
     }
-    else if (arrow_num >= 7 && arrow_num <= 9) {
-        movable_index = (-arrow_num * 2) + 19;
-        cout<<movable_index<<", Movable index"<<endl; // Convert arrow number to index
+    else if (arrow_num >= 6 && arrow_num <= 8) {
+        movable_index = (-arrow_num * 2) + 17;
+        // cout<<movable_index<<", Movable index"<<endl; // Convert arrow number to index
         temp->setsrc(*(grid[movable_index][6]->getsrc()));
         temp->setID((grid[movable_index][6]->getID()));
         temp->setType((grid[movable_index][6]->getType()));
@@ -275,9 +278,9 @@ void Board::insertMazeCard(int arrow_num, Player* players[])
             }
         }
     }
-    else if (arrow_num >= 10 && arrow_num <= 12) {
-        movable_index = (arrow_num * 2) - 19;
-        cout<<movable_index<<", Movable index"<<endl; // Convert arrow number to index
+    else if (arrow_num >= 9 && arrow_num <= 11) {
+        movable_index = (arrow_num * 2) - 17;
+        // cout<<movable_index<<", Movable index"<<endl; // Convert arrow number to index
         temp->setsrc(*(grid[6][movable_index]->getsrc()));
         temp->setID((grid[6][movable_index]->getID()));
         temp->setType((grid[6][movable_index]->getType()));
@@ -455,7 +458,7 @@ void Board::AllocateCards(Player* players[])
             assign.erase(assign.begin() + randomIndex);
         }
     }
-    cout << assign.size()<<endl;
+    // cout << assign.size()<<endl;
 }
 void Board::showTreasure(Player* p, SDL_Renderer* gRenderer, SDL_Texture* asset)
 {

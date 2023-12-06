@@ -39,14 +39,15 @@ class Game {
 public:
     Game(); 
     void startGame(); 
-    // void initializePlayers();
+    void initializePlayers();
     void playTurn(); 
     bool isGameOver(); 
     void displayWinner(); 
     bool init();
     bool loadMedia();
     bool handleKeyboardEvent(SDL_Event& e);
-    int highlightElements(SDL_Renderer*gRenderer, SDL_Texture* asset, bool highlightActiveRight, bool highlightActiveLeft);
+    void highlightElements(bool highlightActiveRight, bool highlightActiveLeft);
+    void Initialize();
     void close();
     SDL_Texture* loadTexture( std::string path );
     
@@ -54,14 +55,25 @@ public:
 private:
     Player* players[4]; // Assuming all 4 players are playing
     Player* current; 
+    Player* red;
+    Player* yellow;
+    Player* green;
+    Player* blue;
     Board board;
     bool highlightActiveRight = false;
     bool highlightActiveLeft = false;
     bool rotate = false;
     bool showCard = false;
     int tick;
-    
+    int arrow_num{0};
     //Stack treasureDeck;
+    std::vector <SDL_Rect> arrow = {{672, 158, 45, 45},{672, 158, 45, 45},{672, 158, 45, 45},
+										{518, 656, 45, 45},{518, 656, 45, 45},{518, 656, 45, 45},
+										{0, 507, 45, 45},{0, 507, 45, 45},{0, 507, 45, 45},
+										{162, 3, 45, 45},{162, 3, 45, 45},{162, 3, 45, 45}};
+    std::vector <SDL_Rect> arrow_dest = {{672, 158, 45, 45},{672, 337, 45, 45}, {672, 510, 45, 45}, {518, 656, 45, 45},
+                                        {345, 656, 45, 45}, {162, 653, 45, 45}, {0, 507, 45, 45}, {0, 328, 45, 45},
+                                        {0, 155, 45, 45}, {162, 3, 45, 45}, {345, 4, 45, 45}, {518, 5, 45, 45} };
 };
 
 #endif

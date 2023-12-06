@@ -14,27 +14,27 @@ MazeCards::MazeCards(Coordinates c, SDL_Rect s)
 
 void MazeCards::setsrc(const SDL_Rect& s)
 {
-    src = s;
+    Cards::src = s;
 }
 SDL_Rect* MazeCards::getsrc()
 {
-    return &src;
+    return &(Cards::src);
 }
 void MazeCards::setmove(const SDL_Rect& m)
 {
-    move = m;
+    Cards::move = m;
 }
 SDL_Rect* MazeCards::getmove()
 {
-    return &move;
+    return &(Cards::move);
 }
 SDL_Rect* MazeCards::getTreasuremove()
 {
-    return &TreasureMove;
+    return &(Cards::TreasureMove);
 }
 void MazeCards::setTreasuremove(const SDL_Rect& tmove)
 {
-    TreasureMove = tmove;
+    Cards::TreasureMove = tmove;
 }
 
 void MazeCards::setcoordinates(Coordinates c)

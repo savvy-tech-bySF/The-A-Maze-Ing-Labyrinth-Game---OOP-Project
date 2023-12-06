@@ -21,8 +21,8 @@ public:
     virtual void setID(std::string ID);
     virtual CardType getType();
     virtual void setType(CardType type);
-    virtual Treasure getTreasure();
-    virtual void setTreasure(Treasure t);
+    Treasure getTreasure();
+    void setTreasure(Treasure t);
     virtual void setcoordinates(Coordinates c);
 protected:
     Coordinates coords;
