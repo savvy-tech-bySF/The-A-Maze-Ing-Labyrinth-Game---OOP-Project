@@ -303,17 +303,39 @@ void Player::addCard(Treasure t)
 
 Treasure Player::getTop()
 {
-    return toFind[0];
+    if (toFind.size()!=0){
+        return toFind[0];
+    }
+    else
+    {
+        return none;
+    }
 }
 void Player::pop()
 {
-    toFind.erase(toFind.begin());
+    if (toFind.size()!=0)
+    {
+        toFind.erase(toFind.begin());
+    }
+}
+bool Player::treasurefound(std::vector<std::vector<Cards*>> *grid)
+{
+    if ((*grid)[row][col]->getTreasure()==getTop() && getTop()!= none)
+    {
+        pop();
+        std::cout<<"Treasure found"<<std::endl;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void Player::place_maze_card() {
     //Todo: Implement logic to place the out of range maze card on the board along with changing it's orientation
 }
-void Player::DrawPlayer(SDL_Renderer* gRenderer, SDL_Texture* asset)
+void Player::DrawPlayer(SDL_Renderer* gRenderer, SDL_Texture* asset, SDL_Rect src, SDL_Rect move)
 {
     SDL_RenderCopy(gRenderer, asset, &src, &move);
     //std::cout<<"draw called"<<std::endl;

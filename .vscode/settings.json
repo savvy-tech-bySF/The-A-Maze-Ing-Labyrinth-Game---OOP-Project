@@ -85,6 +85,12 @@
         "cwctype": "cpp",
         "memory_resource": "cpp",
         "string_view": "cpp",
-        "cfenv": "cpp"
+        "cfenv": "cpp",
+        "codecvt": "cpp",
+        "complex": "cpp",
+        "future": "cpp",
+        "regex": "cpp",
+        "stack": "cpp",
+        "typeindex": "cpp"
     }
 }

@@ -14,8 +14,9 @@ bool Game::init()
 	//Initialization flag
 	bool success = true;
 
+
 	//Initialize SDL
-	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+	if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO ) < 0 )
 	{
 		printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
 		success = false;
@@ -60,8 +61,69 @@ bool Game::init()
 			}
 		}
 	}
-
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+    {
+        printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+        success = false;
+    }
+    else
+    {
+        Mix_Music *bgMusic = Mix_LoadMUS("sneakysnitch.mp3"); // Replace "background_music.mp3" with your audio file
+        if (bgMusic == nullptr)
+        {
+            printf("Failed to load background music! SDL_mixer Error: %s\n", Mix_GetError());
+            success = false;
+        }
+        else
+        {
+            Mix_PlayMusic(bgMusic, -1); // Play the music in an infinite loop (-1)
+        }
+    }
 	return success;
+}
+bool Game::showStartingScreen()
+{
+    SDL_Texture* startingScreenTexture = loadTexture("startingscreen.png");
+    if (startingScreenTexture == nullptr)
+    {
+        printf("Failed to load starting screen texture! SDL Error: %s\n", SDL_GetError());
+        return false;
+    }
+
+    // Show starting screen for 5 seconds (5000 milliseconds)
+    SDL_RenderClear(gRenderer);
+    SDL_RenderCopy(gRenderer, startingScreenTexture, nullptr, nullptr);
+    SDL_RenderPresent(gRenderer);
+
+    // Delay for 5 seconds before transitioning
+    SDL_Delay(5000);  // Adjust this delay as needed (in milliseconds)
+
+    // Free texture
+    SDL_DestroyTexture(startingScreenTexture);
+
+    return true;
+}
+bool Game::showEndScreen()
+{
+    SDL_Texture* startingScreenTexture = loadTexture("endscreen.png");
+    if (startingScreenTexture == nullptr)
+    {
+        printf("Failed to load starting screen texture! SDL Error: %s\n", SDL_GetError());
+        return false;
+    }
+
+    // Show starting screen for 5 seconds (5000 milliseconds)
+    SDL_RenderClear(gRenderer);
+    SDL_RenderCopy(gRenderer, startingScreenTexture, nullptr, nullptr);
+    SDL_RenderPresent(gRenderer);
+
+    // Delay for 5 seconds before transitioning
+    SDL_Delay(5000);  // Adjust this delay as needed (in milliseconds)
+
+    // Free texture
+    SDL_DestroyTexture(startingScreenTexture);
+
+    return true;
 }
 
 bool Game::loadMedia()
@@ -75,10 +137,12 @@ bool Game::loadMedia()
     cards1 = loadTexture("1.png");
     cards2 = loadTexture("2.png");
     cards3 = loadTexture("3.png");
+	frames = loadTexture("currentframes.png");
 	treasureTexture = loadTexture("treasuresallinone.png");
 	ShowTreasure = loadTexture("treasurecardsallinone.png");
+	treasurefound = loadTexture("treasurefound.png");
     gTexture = loadTexture("gamescreen.png");
-	if(assets==NULL || gTexture==NULL || cards1==NULL || cards2==NULL || cards3==NULL || treasureTexture == NULL || ShowTreasure == NULL || player_asset == NULL)
+	if(assets==NULL || gTexture==NULL || cards1==NULL || cards2==NULL || cards3==NULL || treasureTexture == NULL || ShowTreasure == NULL || player_asset == NULL || treasurefound == NULL)
     {
         printf("Unable to run due to error: %s\n",SDL_GetError());
         success =false;
@@ -92,13 +156,14 @@ void Game::close()
 	SDL_DestroyTexture(assets);
 	assets=NULL;
 	SDL_DestroyTexture(gTexture);
-	
+
 	//Destroy window
 	SDL_DestroyRenderer( gRenderer );
 	SDL_DestroyWindow( gWindow );
 	gWindow = NULL;
 	gRenderer = NULL;
 	//Quit SDL subsystems
+	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
@@ -134,7 +199,6 @@ void Game::startGame( )
 	bool quit = false;
 	SDL_Event e;
 	Initialize();
-
 	while( !quit )
 	{
 		//Handle events on queue
@@ -161,14 +225,38 @@ void Game::startGame( )
 		SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);//Draws background to renderer
 		//***********************draw the objects here********************
 		board.DrawBoard(gRenderer, assets, treasureTexture);
-		players[0]->DrawPlayer(gRenderer, player_asset);
-		players[1]->DrawPlayer(gRenderer, player_asset);
-		players[2]->DrawPlayer(gRenderer, player_asset);
-		players[3]->DrawPlayer(gRenderer, player_asset);
-		current->DrawPlayer(gRenderer, player_asset);
-		SDL_RenderCopy(gRenderer, assets1, &arrow[keyevents.arrow_num], &arrow_dest[keyevents.arrow_num]);
-
+		players[0]->DrawPlayer(gRenderer, player_asset, players[0]->src, players[0]->move);
+		players[1]->DrawPlayer(gRenderer, player_asset, players[1]->src, players[1]->move);
+		players[2]->DrawPlayer(gRenderer, player_asset, players[2]->src, players[2]->move);
+		players[3]->DrawPlayer(gRenderer, player_asset, players[3]->src, players[3]->move);
+		current->DrawPlayer(gRenderer, player_asset, current->src, current->move);
+		current->DrawPlayer(gRenderer, frames, current->framesrc, current->framesrc);
 		
+		SDL_RenderCopy(gRenderer, assets1, &arrow[keyevents.arrow_num], &arrow_dest[keyevents.arrow_num]);
+		if (current->treasurefound(&board.grid))
+		{
+			current->card_placed = false;
+			current->playermovement = false;
+			current->player_turn_ended = false;
+			keyevents.i += 1;
+
+			// Display the treasure found texture
+			SDL_RenderCopy(gRenderer, treasurefound, &treasurefoundsrcandmove, &treasurefoundsrcandmove);
+			treasureDisplayStartTime = SDL_GetTicks();
+			treasureDisplayed = true;
+
+			current = players[keyevents.i % 4];
+		}
+
+		// Check if 2 seconds have passed since displaying the treasure
+		if (treasureDisplayed && SDL_GetTicks() < treasureDisplayStartTime + 2000)
+		{
+			SDL_RenderCopy(gRenderer, treasurefound, &treasurefoundsrcandmove, &treasurefoundsrcandmove);
+		// Move to the next player or perform other actions after 2 seconds
+		}
+		else {
+			treasureDisplayed = false;
+		}
 		if(showCard)
 		{
 			board.showTreasure(current, gRenderer, ShowTreasure);
@@ -176,6 +264,11 @@ void Game::startGame( )
 			{
 				showCard = false;
 			}
+		}
+		if (isGameOver())
+		{
+			displayWinner();
+			quit = true;
 		}
 
 		//****************************************************************
@@ -187,7 +280,7 @@ void Game::startGame( )
 }
 
 Game::Game() {
-    //Todo: Initialize players with their treasure cards
+    
 	
 }
 
@@ -204,21 +297,25 @@ void Game::initializePlayers()
 	red = new Player();
 	red->src = {603, 73, 40, 41};
 	red->move = {603, 73, 40, 41};
+	red->framesrc = {584, 49, 89, 89};
 	red->row = 0;
 	red->col = 6;
 	yellow = new Player();
 	yellow->src = {82, 73, 41, 42};
 	yellow->move = {82, 73, 41, 42};
+	yellow->framesrc = {55, 47, 88, 89};
 	yellow->row = 0;
 	yellow->col = 0;
 	green = new Player();
 	green->src = {83,591,37,37};
 	green->move = {83,591,37,37};
+	green->framesrc = {55, 570, 88, 89};
 	green->row = 6;
 	green->col = 0;
 	blue = new Player();
 	blue->src = {611,592,35,35};
 	blue->move = {611,592,35,35};
+	blue->framesrc = {583, 568, 88, 89};
 	blue->row = 6;
 	blue->col = 6;
 	players[0] = red;
@@ -237,10 +334,26 @@ void Game::playTurn(SDL_Event e) {
 }
 
 bool Game::isGameOver() {
-    // Todo: Logic to determine if the game is over
-    return false;
+    if ((players[0]->toFind.size()==0 && players[0]->row == 0 && players[0]->col ==6) || (players[1]->toFind.size()==0 && players[1]->row == 0 && players[1]->col == 0) || (players[2]->toFind.size()==0 && players[2]->row == 6 && players[2]->col == 0) || (players[3]->toFind.size()==0 && players[3]->row == 6 && players[3]->col == 6)){
+		return true;
+	}
+	else 
+	{
+		return false;
+	}
 }
 
 void Game::displayWinner() {
-    //Todo: Logic to display the winner of the game
+    if (players[0]->toFind.size()==0 && players[0]->row == 0 && players[0]->col ==6){
+		cout<<"Red wins"<<endl;
+	}
+	else if (players[1]->toFind.size()==0 && players[1]->row == 0 && players[1]->col == 0){
+		cout<<"Yellow wins"<<endl;
+	}
+	else if (players[2]->toFind.size()==0 && players[2]->row == 6 && players[2]->col == 0){
+		cout<<"Green wins"<<endl;
+	}
+	else if (players[3]->toFind.size()==0 && players[3]->row == 6 && players[3]->col == 6){
+		cout<<"Green wins"<<endl;
+	}
 }

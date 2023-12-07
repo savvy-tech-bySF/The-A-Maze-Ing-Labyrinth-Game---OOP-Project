@@ -19,5 +19,6 @@ public:
     bool highlightActiveLeft = false;
     int arrow_num{0};
     int tick;
+    int i=0;
 };
 

@@ -21,7 +21,6 @@ void handlekeyboardevent::highlightElements(bool highlightActiveRight, bool high
 }
 
 int handlekeyboardevent::handleKeyboardEvent(SDL_Event& e, Board& board, Player* players[], Player** current) {
-    static int i=0;
     if (e.type == SDL_KEYDOWN) {
         switch (e.key.keysym.sym) {
             case SDLK_RIGHT:
@@ -46,10 +45,15 @@ int handlekeyboardevent::handleKeyboardEvent(SDL_Event& e, Board& board, Player*
                 return tick;
 				break;
 			case SDLK_e:
-                (*current)->playermovement = false;
-                i++;
-                cout<<"player: "<< i%4<<endl;
-				(*current) = players[i%4];
+                if((*current)->card_placed)
+                {
+                    (*current)->playermovement = false;
+                    (*current)->card_placed = false; 
+                    (*current)->player_turn_ended = false;
+                    i++;
+                    cout<<"player: "<< i%4<<endl;
+                    (*current) = players[i%4];
+                }
                 break;
             case SDLK_RETURN:
                 //enter key pressed

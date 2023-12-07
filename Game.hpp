@@ -6,6 +6,7 @@
 #include "handlekeyboardevent.hpp"
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include <stdio.h>
 #include <iostream>
 #include <string>
@@ -35,12 +36,17 @@ class Game {
     SDL_Texture* cards3 = NULL;
     SDL_Texture* treasureTexture = NULL;
     SDL_Texture* ShowTreasure = NULL;
+    SDL_Texture* treasurefound = NULL;
+    SDL_Texture* frames = NULL;
+    Mix_Music* bgMusic;
 
 
 public:
     Game(); 
     void startGame(); 
     void initializePlayers();
+    bool showStartingScreen();
+    bool showEndScreen();
     void playTurn(SDL_Event e); 
     bool isGameOver(); 
     void displayWinner(); 
@@ -60,8 +66,10 @@ private:
     Player* blue;
     Board board;
     int tick;
+    int treasureDisplayStartTime;
     bool rotate = false;
     bool showCard = false;
+    bool treasureDisplayed;
     handlekeyboardevent keyevents;
     //Stack treasureDeck;
     std::vector <SDL_Rect> arrow = {{672, 158, 45, 45},{672, 158, 45, 45},{672, 158, 45, 45},
@@ -71,6 +79,7 @@ private:
     std::vector <SDL_Rect> arrow_dest = {{672, 158, 45, 45},{672, 337, 45, 45}, {672, 510, 45, 45}, {518, 656, 45, 45},
                                         {345, 656, 45, 45}, {162, 653, 45, 45}, {0, 507, 45, 45}, {0, 328, 45, 45},
                                         {0, 155, 45, 45}, {162, 3, 45, 45}, {345, 4, 45, 45}, {518, 5, 45, 45} };
+    SDL_Rect treasurefoundsrcandmove = {156, 193, 406, 340};
 };
 
 #endif

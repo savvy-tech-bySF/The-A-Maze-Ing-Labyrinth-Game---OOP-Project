@@ -20,7 +20,8 @@ public:
     void addCard(Treasure t);
     Treasure getTop();
     void pop();
-    void DrawPlayer(SDL_Renderer* gRenderer, SDL_Texture* asset);
+    void DrawPlayer(SDL_Renderer* gRenderer, SDL_Texture* asset, SDL_Rect src, SDL_Rect move);
+    bool treasurefound(std::vector<std::vector<Cards*>> *grid);
     //void move(SDL_KeyboardEvent event); //Todo: Handle player movement based on SDL keyboard event (to be defined) 
 
     //bool checkTreasure(); // Check if the player found any treasure
@@ -37,6 +38,7 @@ public:
     int playerID;
     //int treasures; if we change the amount of players who can play. Default are 4
     //Stack cards;
+    SDL_Rect framesrc;
     int row; 
     int col;
     SDL_Rect src;
