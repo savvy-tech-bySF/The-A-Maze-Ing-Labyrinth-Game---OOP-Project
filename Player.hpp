@@ -22,22 +22,13 @@ public:
     void pop();
     void DrawPlayer(SDL_Renderer* gRenderer, SDL_Texture* asset, SDL_Rect src, SDL_Rect move);
     bool treasurefound(std::vector<std::vector<Cards*>> *grid);
-    //void move(SDL_KeyboardEvent event); //Todo: Handle player movement based on SDL keyboard event (to be defined) 
-
-    //bool checkTreasure(); // Check if the player found any treasure
-
-    //TreasureCards* getFound(); // Return array of found treasure cards
-    // void addTreasureCard(TreasureCards* Card);
     bool validate_move(SDL_Rect* adjacentCard, char direction, std::vector<std::vector<Cards*>> *grid, std::vector<SDL_Rect> allmazecards, bool current = false);
     void place_maze_card(); // Place the out of range maze card on the board
     void move_player(char direction, std::vector<std::vector<Cards*>> *grid, std::vector<SDL_Rect> allmazecards, bool validate=true);
-//private:
     bool isplacingcardallowed();
     bool isrotationallowed();
     bool ismovementallowed();
     int playerID;
-    //int treasures; if we change the amount of players who can play. Default are 4
-    //Stack cards;
     SDL_Rect framesrc;
     int row; 
     int col;

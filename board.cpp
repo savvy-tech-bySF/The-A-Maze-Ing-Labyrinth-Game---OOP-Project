@@ -35,23 +35,6 @@ void Board::initializeBoard()
     c.x = 534; FixedMaze* blueBase = new FixedMaze(c); blueBase->setsrc(allmazecards[3]); blueBase->setID("15"); blueBase->setType(corner); blueBase->setTreasure(none);FM.push_back(*blueBase);
 
     c.x = 146; c.y =48; MazeCards check(c, allmazecards[0]); check.setID("16"); check.setType(corner); check.setTreasure(none); check.setOrientation("SE"); //filler card
-    // c.x = 321; MazeCards check2(c,l1); check2.setID("17"); check2.setType(line); check2.setTreasure(none); check2.setOrientation("WE");
-    // c.x = 146;c.y = 136; MazeCards check3(c,t3); check2.setID("18"); check3.setType(three_sided); check3.setTreasure(none); check3.setOrientation("WSE");
-    // c.x = 321; MazeCards check4(c,c4); check4.setID("19"); check4.setType(corner); check4.setTreasure(none); check4.setOrientation("NW");
-    // rows.push_back(check);
-    // rows.push_back(check2);
-    // rows.push_back(check3);
-    // rows.push_back(check4);
-    // 
-    // std::vector<std::vector<bool>> cannot_move = {
-    //     {true, false, true, false, true, false, true},
-    //     {false, false, false, false, false, false, false},
-    //     {true, false, true, false, true, false, true},
-    //     {false, false, false, false, false, false, false},
-    //     {true, false, true, false, true, false, true},
-    //     {false, false, false, false, false, false, false},
-    //     {true, false, true, false, true, false, true}
-    // };
     grid = {
         {yellowBase, &check, Books, &check, Stash, &check, redBase},
         {&check, &check, &check, &check, &check, &check, &check},
@@ -64,7 +47,6 @@ void Board::initializeBoard()
 
     std::vector<Treasure> T_assign = {none, none, none, none, none, dragon, none, none, none, none, owl, lizard, none, none, none, witch, bug, mouse, bat, spider, princess, genie,
                                     none,moth,none,none, none, none, ghost, none, none, none, none};
-    //cout<<"grid made"<<endl;
     int startingX[] = {146, 321, 496}; // X coordinates for columns
     int startingY = 48; // Initial Y coordinate
     int mazecardindex[] = {1, 3, 5};
@@ -146,13 +128,9 @@ void Board::initializeBoard()
             mazeCard->setTreasure(T_assign[randomTreasure]); // Set the treasure type
             T_assign.erase(T_assign.begin()+randomTreasure);
             grid[mazecardindex[row]][cardindex[col]] = mazeCard;
-            // grid[row][mazecardindex[col]] = mazeCard;
-            
         }
 
     }
-    // cout << T_assign.size() << endl;
-    //cout<<"rows made"<<endl;
     int i = rand() % allmazecards.size();
     SDL_Rect srcRect = allmazecards[i];
 
@@ -187,8 +165,6 @@ void Board::initializeBoard()
 void Board::insertMazeCard(int arrow_num, Player* players[]) 
 {
     Coordinates c(815, 413);
-    // cout << " Function called\n";
-    // cout << arrow_num << endl;
     Cards* temp = new MazeCards();
     int movable_index;
     if (arrow_num >= 0 && arrow_num <= 2) {
@@ -200,7 +176,6 @@ void Board::insertMazeCard(int arrow_num, Player* players[])
 
         
         for (int i = 0; i < 6; i++) {
-            // cout<<grid[movable_index][i]->getID()<<endl;
             MazeCards* currentCard = dynamic_cast<MazeCards*>(grid[movable_index][i + 1]);
             grid[movable_index][i]->setsrc(*(currentCard->getsrc()));
             grid[movable_index][i]->setID((currentCard->getID()));
@@ -231,7 +206,6 @@ void Board::insertMazeCard(int arrow_num, Player* players[])
 
         
         for (int i = 0; i < 6; i++) {
-            // cout<<grid[movable_index][i]->getID()<<endl;
             MazeCards* currentCard = dynamic_cast<MazeCards*>(grid[i+1][movable_index]);
             grid[i][movable_index]->setsrc(*(currentCard->getsrc()));
             grid[i][movable_index]->setID((currentCard->getID()));
@@ -252,7 +226,6 @@ void Board::insertMazeCard(int arrow_num, Player* players[])
     }
     else if (arrow_num >= 6 && arrow_num <= 8) {
         movable_index = (-arrow_num * 2) + 17;
-        // cout<<movable_index<<", Movable index"<<endl; // Convert arrow number to index
         temp->setsrc(*(grid[movable_index][6]->getsrc()));
         temp->setID((grid[movable_index][6]->getID()));
         temp->setType((grid[movable_index][6]->getType()));
@@ -280,7 +253,6 @@ void Board::insertMazeCard(int arrow_num, Player* players[])
     }
     else if (arrow_num >= 9 && arrow_num <= 11) {
         movable_index = (arrow_num * 2) - 17;
-        // cout<<movable_index<<", Movable index"<<endl; // Convert arrow number to index
         temp->setsrc(*(grid[6][movable_index]->getsrc()));
         temp->setID((grid[6][movable_index]->getID()));
         temp->setType((grid[6][movable_index]->getType()));
@@ -288,7 +260,6 @@ void Board::insertMazeCard(int arrow_num, Player* players[])
 
         
         for (int i = 6; i > 0; i--) {
-            //cout<<grid[movable_index][i]->getID()<<endl;
             MazeCards* currentCard = dynamic_cast<MazeCards*>(grid[i-1][movable_index]);
             grid[i][movable_index]->setsrc(*(currentCard->getsrc()));
             grid[i][movable_index]->setID((currentCard->getID()));
@@ -314,6 +285,8 @@ void Board::insertMazeCard(int arrow_num, Player* players[])
         usable->setID((temp->getID()));
         usable->setType((temp->getType()));
         usable->setTreasure((temp->getTreasure()));
+        delete temp;
+        temp = nullptr;
 }
 void Board::rotateUsable()
 {
@@ -366,14 +339,6 @@ bool Board::compareRects(SDL_Rect a, SDL_Rect b)
 {
     return (a.x == b.x && a.y == b.y && a.w == b.w && a.h == b.h);
 }
-
-void Board::movePlayer() {
-    // Todo: Implement the logic to move the player on the board
-}
-
-void Board::moveCard() {
-    //Todo: Implement the logic to move the out of range card on the board
-}
 void Board::DrawBoard(SDL_Renderer* gRenderer, SDL_Texture* asset1, SDL_Texture* asset2)
 {
     for (size_t i = 0; i < grid.size(); ++i) {
@@ -384,7 +349,6 @@ void Board::DrawBoard(SDL_Renderer* gRenderer, SDL_Texture* asset1, SDL_Texture*
                 if (mazeCard != nullptr) {
                     SDL_RenderCopy(gRenderer, asset1, mazeCard->getsrc(), mazeCard->getmove());
                     DrawTreasures(gRenderer, asset2, mazeCard);
-                    //cout<< mazeCard->getID()<<endl;
                 }
             }
         }
@@ -392,8 +356,6 @@ void Board::DrawBoard(SDL_Renderer* gRenderer, SDL_Texture* asset1, SDL_Texture*
     SDL_RenderCopy(gRenderer, asset1, usable->getsrc(), usable->getmove());
     MazeCards* temp = dynamic_cast<MazeCards*> (usable);
     DrawTreasures(gRenderer, asset2, temp);
-
-
 }
 
 void Board::DrawTreasures(SDL_Renderer* gRenderer, SDL_Texture* asset, MazeCards* mazeCard)
@@ -458,7 +420,6 @@ void Board::AllocateCards(Player* players[])
             assign.erase(assign.begin() + randomIndex);
         }
     }
-    // cout << assign.size()<<endl;
 }
 void Board::showTreasure(Player* p, SDL_Renderer* gRenderer, SDL_Texture* asset)
 {

@@ -26,11 +26,9 @@ bool Player::validate_move(SDL_Rect* adjacentCard, char direction, std::vector<s
             // Card c1
             if (adjacentCard->x == allmazecards[0].x && adjacentCard->y == allmazecards[0].y) {
                 if ((direction == 'a' || direction == 'w') && !current) {
-                    std::cout<<"Card c1"<<std::endl;
                     return true; // Valid move for c1
                 }
                 else if ((direction == 'd' || direction == 's') && current) {
-                    std::cout<<"Card c1"<<std::endl;
                     return true; // Valid move for c1
                 }
             }
@@ -38,11 +36,9 @@ bool Player::validate_move(SDL_Rect* adjacentCard, char direction, std::vector<s
             // Card c2
             if (adjacentCard->x == allmazecards[1].x && adjacentCard->y == allmazecards[1].y) {
                 if ((direction == 'a' || direction == 's') && !current) {
-                    std::cout<<"Card c2"<<std::endl;
                     return true; // Valid move for c2
                 }
                 else if ((direction == 'w' || direction == 'd') && current) {
-                    std::cout<<"Card c2"<<std::endl;
                     return true; // Valid move for c1
                 }
             }
@@ -50,11 +46,9 @@ bool Player::validate_move(SDL_Rect* adjacentCard, char direction, std::vector<s
             // Card c3
             if (adjacentCard->x == allmazecards[2].x && adjacentCard->y == allmazecards[2].y) {
                 if ((direction == 'd' || direction == 'w') && !current) {
-                    std::cout<<"Card c3"<<std::endl;
                     return true; // Valid move for c3
                 }
                 else if ((direction == 'a' || direction == 's') && current) {
-                    std::cout<<"Card c3"<<std::endl;
                     return true; // Valid move for c3
                 }
                 else
@@ -66,11 +60,9 @@ bool Player::validate_move(SDL_Rect* adjacentCard, char direction, std::vector<s
             // Card c4
             if (adjacentCard->x == allmazecards[3].x && adjacentCard->y == allmazecards[3].y) {
                 if ((direction == 's' || direction == 'd' )&& !current) {
-                    std::cout<<"Card c4"<<std::endl;
                     return true; // Valid move for c4
                 }
                 else if ((direction == 'a' || direction == 'w') && current) {
-                    std::cout<<"Card c4"<<std::endl;
                     return true; // Valid move for c4
                 }
             }
@@ -78,11 +70,9 @@ bool Player::validate_move(SDL_Rect* adjacentCard, char direction, std::vector<s
             // Card l1
             if (adjacentCard->x == allmazecards[4].x && adjacentCard->y == allmazecards[4].y) {
                 if ((direction == 'a' || direction == 'd') && !current) {
-                    std::cout<<"Card l1"<<std::endl;
                     return true; // Valid move for l1
                 }
                 else if ((direction == 'a' || direction == 'd') && current) {
-                    std::cout<<"Card l1"<<std::endl;
                     return true; // Valid move for l1
                 }
             }
@@ -90,11 +80,9 @@ bool Player::validate_move(SDL_Rect* adjacentCard, char direction, std::vector<s
             // Card l2
             if (adjacentCard->x == allmazecards[5].x && adjacentCard->y == allmazecards[5].y) {
                 if ((direction == 'w' || direction == 's') && !current) {
-                    std::cout<<"Card l2"<<std::endl;
                     return true; // Valid move for l2
                 }
                 else if ((direction == 'w' || direction == 's') && current) {
-                    std::cout<<"Card l2"<<std::endl;
                     return true; // Valid move for l2
                 }
             }
@@ -102,11 +90,9 @@ bool Player::validate_move(SDL_Rect* adjacentCard, char direction, std::vector<s
             // Card t1
             if (adjacentCard->x == allmazecards[6].x && adjacentCard->y == allmazecards[6].y) {
                 if ((direction == 'd' || direction == 'w' || direction == 's' )&& !current) {
-                    std::cout<<"Card t1"<<std::endl;
                     return true; // Valid move for t1
                 }
                 else if ((direction == 'a' || direction == 'w' || direction == 's') && current) {
-                    std::cout<<"Card t1"<<std::endl;
                     return true; // Valid move for t1
                 }
             }
@@ -114,11 +100,9 @@ bool Player::validate_move(SDL_Rect* adjacentCard, char direction, std::vector<s
             // Card t2
             if (adjacentCard->x == allmazecards[7].x && adjacentCard->y == allmazecards[7].y) {
                 if ((direction == 'a' || direction == 's' || direction == 'd' )&& !current) {
-                    std::cout<<"Card t2"<<std::endl;
                     return true; // Valid move for t2
                 }
                 else if ((direction == 'a' || direction == 'w' || direction == 'd') && current) {
-                    std::cout<<"Card t2"<<std::endl;
                     return true; // Valid move for t2
                 }
             }
@@ -126,11 +110,11 @@ bool Player::validate_move(SDL_Rect* adjacentCard, char direction, std::vector<s
             // Card t3
             if (adjacentCard->x == allmazecards[8].x && adjacentCard->y == allmazecards[8].y) {
                 if ((direction == 'a' || direction == 'w' || direction == 'd') && !current) {
-                    std::cout<<"Card t3"<<std::endl;
+                    // std::cout<<"Card t3"<<std::endl;
                     return true; // Valid move for t3
                 }
                 else if ((direction == 'a' || direction == 's' || direction == 'd') && current) {
-                    std::cout<<"Card t3"<<std::endl;
+                    // std::cout<<"Card t3"<<std::endl;
                     return true; // Valid move for t3
                 }
             }
@@ -138,19 +122,15 @@ bool Player::validate_move(SDL_Rect* adjacentCard, char direction, std::vector<s
             // Card t4
             if (adjacentCard->x == allmazecards[9].x && adjacentCard->y == allmazecards[9].y) {
                 if ((direction == 'w' || direction == 's' || direction == 'a') && !current) {
-                    std::cout<<"Card t4"<<std::endl;
+                    // std::cout<<"Card t4"<<std::endl;
                     return true; // Valid move for t4
                 }
                 else if ((direction == 'w' || direction == 's' || direction == 'd') && current) {
-                    std::cout<<"Card t4"<<std::endl;
+                    // std::cout<<"Card t4"<<std::endl;
                     return true; // Valid move for t4
                 }
             }
 
-            // ...
-
-        //}
-    //}
 
     return false; // No matching card found for the adjacent move
 }
@@ -232,13 +212,11 @@ void Player::move_player(char direction, std::vector<std::vector<Cards*>> *grid,
                 }
                 break;
             default:
-                std::cout << "Invalid direction input!" << std::endl;
                 break;
         }
     }
     else
     {
-        std::cout << "move player with card\n";
         switch(direction)
         {
             case 'w':
@@ -287,14 +265,11 @@ void Player::move_player(char direction, std::vector<std::vector<Cards*>> *grid,
                 {
                     move.x -= 85*6;
                     col = 0;
-                    std::cout << "move updated\n";
+                    // std::cout << "move updated\n";
                 }
                 break;
         }
     }
-
-    std::cout<<"move_player called"<<std::endl;
-    std::cout<<"row "<<row<<" col "<<col<<std::endl;
 }
 void Player::addCard(Treasure t)
 {
@@ -320,6 +295,8 @@ void Player::pop()
 }
 bool Player::treasurefound(std::vector<std::vector<Cards*>> *grid)
 {
+    if (toFind.size() == 0)
+    std::cout << "all found\n";
     if ((*grid)[row][col]->getTreasure()==getTop() && getTop()!= none)
     {
         pop();
@@ -332,11 +309,7 @@ bool Player::treasurefound(std::vector<std::vector<Cards*>> *grid)
     }
 }
 
-void Player::place_maze_card() {
-    //Todo: Implement logic to place the out of range maze card on the board along with changing it's orientation
-}
 void Player::DrawPlayer(SDL_Renderer* gRenderer, SDL_Texture* asset, SDL_Rect src, SDL_Rect move)
 {
     SDL_RenderCopy(gRenderer, asset, &src, &move);
-    //std::cout<<"draw called"<<std::endl;
 }

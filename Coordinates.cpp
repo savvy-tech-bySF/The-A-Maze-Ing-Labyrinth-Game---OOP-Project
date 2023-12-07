@@ -1,6 +1,3 @@
-
-
-
 #include "Coordinates.hpp"
 Coordinates::Coordinates()
 {
@@ -18,5 +15,3 @@ bool Coordinates::validate()
 {
     return false;
 }
-
-//Todo Set up validation according to board size and coordinates

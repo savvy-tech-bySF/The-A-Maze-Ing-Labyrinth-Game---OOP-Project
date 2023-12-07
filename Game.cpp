@@ -1,14 +1,7 @@
 #include <iostream>
 #include "Game.hpp"
 using namespace std;
-// void Game::initializePlayers() {
-// 	for (int i = 0; i < 4; ++i) {
-// 		for (int j = 0; j < 6; ++j) {
-// 			//TreasureCards card = treasureDeck.pop();
-// 			//players[i].addTreasureCard(&card);
-// 		}
-// 	}
-// }
+
 bool Game::init()
 {
 	//Initialization flag
@@ -90,38 +83,54 @@ bool Game::showStartingScreen()
         return false;
     }
 
-    // Show starting screen for 5 seconds (5000 milliseconds)
+    // Show starting screen for 7 seconds (7000 milliseconds)
     SDL_RenderClear(gRenderer);
     SDL_RenderCopy(gRenderer, startingScreenTexture, nullptr, nullptr);
     SDL_RenderPresent(gRenderer);
 
-    // Delay for 5 seconds before transitioning
-    SDL_Delay(5000);  // Adjust this delay as needed (in milliseconds)
+    // Delay for 7 seconds before transitioning
+    SDL_Delay(7000);  // Adjust this delay as needed (in milliseconds)
 
     // Free texture
     SDL_DestroyTexture(startingScreenTexture);
 
     return true;
 }
-bool Game::showEndScreen()
+bool Game::showEndScreen(Player* p)
 {
-    SDL_Texture* startingScreenTexture = loadTexture("endscreen.png");
-    if (startingScreenTexture == nullptr)
+    SDL_Texture* endScreenTexture = nullptr;
+	if (p == red)
+	{
+		endScreenTexture = loadTexture("redWin.png");
+	}
+	else if (p == yellow)
+	{
+		endScreenTexture = loadTexture("yellowWin.png");
+	}
+	else if (p == green)
+	{
+		endScreenTexture = loadTexture("greenWin.png");
+	}
+	else if (p == blue)
+	{
+		endScreenTexture = loadTexture("blueWin.png");
+	}
+    if (endScreenTexture == nullptr)
     {
-        printf("Failed to load starting screen texture! SDL Error: %s\n", SDL_GetError());
+        printf("Failed to load end screen texture! SDL Error: %s\n", SDL_GetError());
         return false;
     }
 
-    // Show starting screen for 5 seconds (5000 milliseconds)
+    // Show end screen for 7 seconds (7000 milliseconds)
     SDL_RenderClear(gRenderer);
-    SDL_RenderCopy(gRenderer, startingScreenTexture, nullptr, nullptr);
+    SDL_RenderCopy(gRenderer, endScreenTexture, nullptr, nullptr);
     SDL_RenderPresent(gRenderer);
 
-    // Delay for 5 seconds before transitioning
-    SDL_Delay(5000);  // Adjust this delay as needed (in milliseconds)
+    // Delay for 7 seconds before transitioning
+    SDL_Delay(7000);  // Adjust this delay as needed (in milliseconds)
 
     // Free texture
-    SDL_DestroyTexture(startingScreenTexture);
+    SDL_DestroyTexture(endScreenTexture);
 
     return true;
 }
@@ -217,7 +226,7 @@ void Game::startGame( )
 				{
 					showCard=true;
 				}
-				cout << "key pressed\n";
+				// cout << "key pressed\n";
             }
 		}
 
@@ -284,6 +293,20 @@ Game::Game() {
 	
 }
 
+Game::~Game()
+{
+	deletion(red);
+	deletion(green);
+	deletion(blue);
+	deletion(yellow);
+	deletion(players[1]);
+	deletion(players[2]);
+	deletion(players[3]);
+	deletion(players[0]);
+	deletion(current);
+	red = green = blue = yellow = players[0] = players[1] = players[2] = players[3] = current = nullptr;
+}
+
 void Game::Initialize()
 {
 	board.initializeBoard();
@@ -322,15 +345,6 @@ void Game::initializePlayers()
 	players[1] = yellow;
 	players[2] = green;
 	players[3] = blue;
-	current = players[0];
-}
-
-// void Game::startGame() {
-//Todo: Logic to initialize the game, distribute cards, set up the board
-// }
-
-void Game::playTurn(SDL_Event e) {
-    
 }
 
 bool Game::isGameOver() {
@@ -346,14 +360,37 @@ bool Game::isGameOver() {
 void Game::displayWinner() {
     if (players[0]->toFind.size()==0 && players[0]->row == 0 && players[0]->col ==6){
 		cout<<"Red wins"<<endl;
+			if (!showEndScreen(red))
+		{
+			cout << "End screen display failed." << endl;
+		}
 	}
 	else if (players[1]->toFind.size()==0 && players[1]->row == 0 && players[1]->col == 0){
 		cout<<"Yellow wins"<<endl;
+		if (!showEndScreen(yellow))
+		{
+			cout << "End screen display failed." << endl;
+		}
 	}
 	else if (players[2]->toFind.size()==0 && players[2]->row == 6 && players[2]->col == 0){
 		cout<<"Green wins"<<endl;
+		if (!showEndScreen(green))
+		{
+			cout << "End screen display failed." << endl;
+		}
 	}
 	else if (players[3]->toFind.size()==0 && players[3]->row == 6 && players[3]->col == 6){
-		cout<<"Green wins"<<endl;
+		cout<<"Blue wins"<<endl;
+		if (!showEndScreen(blue))
+		{
+			cout << "End screen display failed." << endl;
+		}
 	}
+}
+void Game::deletion(Player* p)
+{
+    if (p != nullptr)
+    {
+        delete p;
+    }
 }

@@ -5,7 +5,6 @@ int main(int argc, char* argv[])
 {
     Game game;
     srand(time(NULL));
-    //system("gameintrovid.mp4");
     if( !game.init() ){
 		printf( "Failed to initialize!\n" );
         return 0;
@@ -23,11 +22,6 @@ int main(int argc, char* argv[])
     }
 
     game.startGame();
-    if (!game.showEndScreen())
-    {
-        cout << "End screen display failed." << endl;
-        return 0;
-    }
     game.close();
     return 0;
 }

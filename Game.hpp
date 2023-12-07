@@ -43,16 +43,18 @@ class Game {
 
 public:
     Game(); 
+    ~Game();
     void startGame(); 
     void initializePlayers();
     bool showStartingScreen();
-    bool showEndScreen();
+    bool showEndScreen(Player* p);
     void playTurn(SDL_Event e); 
     bool isGameOver(); 
     void displayWinner(); 
     bool init();
     bool loadMedia();
     void Initialize();
+    void deletion(Player* p);
     void close();
     SDL_Texture* loadTexture( std::string path );
     

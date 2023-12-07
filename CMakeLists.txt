@@ -19,7 +19,8 @@ SET(APP_FILES main.cpp
               Enums.cpp FixedMazeCards.cpp
               Player.hpp Player.cpp
               Game.hpp Game.cpp
-              board.hpp board.cpp)
+              board.hpp board.cpp
+              handlekeyboardevent.hpp handlekeyboardevent.cpp)
 
 add_executable(${APP_NAME} ${APP_FILES})
 target_include_directories(${APP_NAME} PUBLIC ${sdl_SOURCE_DIR}/include ${sdl_mixer_SOURCE_DIR}/include ${sdl_image_SOURCE_DIR})

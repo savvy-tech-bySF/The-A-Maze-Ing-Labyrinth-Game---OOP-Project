@@ -42,31 +42,3 @@ void Cqueue::deleteCQ()
         Cqueue::front = Cqueue::front + 1;
     }
 }
-// void Cqueue::displayCQ() 
-//     {
-//     int f = Cqueue::front, r = Cqueue::rear;
-//     if (Cqueue::front == -1) {
-//         cout<<"Queue is empty"<<endl;
-//         return;
-//     }
-//     cout<<"Queue elements are :\n";
-//     if (f <= r) {
-//         while (f <= r){
-//             cout<<Cqueue::cqueue[f]<<" ";
-//             f++;
-//         }
-//     } 
-//     else 
-//     {
-//         while (f <= n - 1) {
-//             cout<<Cqueue::cqueue[f]<<" ";
-//             f++;
-//         }
-//         f = 0;
-//         while (f <= r) {
-//             cout<<Cqueue::cqueue[f]<<" ";
-//             f++;
-//         }
-//     }
-//     cout<<endl;
-// }

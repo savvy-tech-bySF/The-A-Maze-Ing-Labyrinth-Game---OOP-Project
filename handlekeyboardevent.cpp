@@ -2,10 +2,7 @@
 using namespace std;
 void handlekeyboardevent(){}
 void handlekeyboardevent::highlightElements(bool highlightActiveRight, bool highlightActiveLeft){
-	
-		// cout << highlightActive << " highlight elements" <<  endl;
-		// int j = i-1;
-		//cout<<i<<endl;
+
 		if (highlightActiveRight){
 			arrow_num+=1;
 		}
@@ -28,7 +25,6 @@ int handlekeyboardevent::handleKeyboardEvent(SDL_Event& e, Board& board, Player*
             {
 				highlightActiveRight = true;
 				highlightElements(true, false);
-				cout << highlightActiveRight << endl;
             }
             break;
 			case SDLK_LEFT:
@@ -56,14 +52,11 @@ int handlekeyboardevent::handleKeyboardEvent(SDL_Event& e, Board& board, Player*
                 }
                 break;
             case SDLK_RETURN:
-                //enter key pressed
                 if (!(*current)->card_placed)
                 {
-                    cout << arrow_num << endl;
                     board.insertMazeCard(arrow_num, players);
                     (*current)->card_placed = true;
                 }
-				// cout << "enter pressed\n";
                 break;
 			case SDLK_a:
             if ((*current)->card_placed)
@@ -90,7 +83,6 @@ int handlekeyboardevent::handleKeyboardEvent(SDL_Event& e, Board& board, Player*
 				break;
             }
             default:
-				//return false;
                 break;
         }
     }
