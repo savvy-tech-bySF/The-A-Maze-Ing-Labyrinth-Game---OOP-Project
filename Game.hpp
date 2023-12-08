@@ -1,6 +1,6 @@
 #pragma once
 #include "Player.hpp" 
-#include "Board.hpp"
+#include "board.hpp"
 #include "Stack.hpp"
 #include "TreasureCards.cpp"
 #include "handlekeyboardevent.hpp"
@@ -40,6 +40,8 @@ class Game {
     SDL_Texture* frames = NULL;
     Mix_Music* bgMusic;
 
+    string currentPath = __FILE__;
+//    cout << currentPath << endl;
 
 public:
     Game(); 
@@ -57,7 +59,6 @@ public:
     void deletion(Player* p);
     void close();
     SDL_Texture* loadTexture( std::string path );
-    
 
 private:
     Player* players[4]; // Assuming all 4 players are playing
@@ -68,11 +69,12 @@ private:
     Player* blue;
     Board board;
     int tick;
-    int treasureDisplayStartTime;
+    int treasureDisplayStartTime = 0;
     bool rotate = false;
     bool showCard = false;
     bool treasureDisplayed;
     handlekeyboardevent keyevents;
+
     //Stack treasureDeck;
     std::vector <SDL_Rect> arrow = {{672, 158, 45, 45},{672, 158, 45, 45},{672, 158, 45, 45},
 										{518, 656, 45, 45},{518, 656, 45, 45},{518, 656, 45, 45},
