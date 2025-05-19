@@ -24,11 +24,3 @@ A C++ implementation of the classic board game "The aMAZEing Labyrinth".
    ./a.exe
    ```
 
-## Project Layout
-
-```
-src/       • Source code (Board, Game, Player, Cards)
-assets/    • Images and sounds
-CMakeLists.txt  • Build configuration
-```
-
