@@ -1,6 +1,6 @@
 #pragma once
 #include "Player.hpp" 
-#include "Board.hpp"
+#include "board.hpp"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
